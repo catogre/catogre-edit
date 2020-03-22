@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+    padding: 100px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 30px;
+    background: #111;
+    color: #fff;
+}
+
+a{
+    color: #bd163d;
+}
+a:hover{
+    color: #d8204b;
+}
+
+h1{
+    font-weight: 900;
+}
+
+.logo{
+    height: 50px;
+    position: absolute;
+    top: 50px;
+    left: 100px;
+}
+
+hr{
+    margin: 50px -100px;
+    border: none;
+    border-top: 1px solid #000;
+}
