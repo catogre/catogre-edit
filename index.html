@@ -5,22 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CatOgre Editor 🚧 Under Construction</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <img src="media/logo.svg" class="logo" alt="Logo">
-    <h1>🚧 Under Construction!</h1>
+    <div id="app">
+        <div class="navbar-wrap">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <img src="./media/logo.svg" alt="Logo" draggable="false" class="navbar-logo">
+                    <div class="line"></div>
 
-    <p>
-        <b>CatOgre</b> is a text-based external editor for Scratch 3.0. The main differences is that it's 
-        extremely customizable and open source! <br> CatOgre is currently in development, so i guess that's it for now.
-    </p>
+                    <div class="navbar-dropdown" tabindex="0">
+                        <div class="dropdown-head">File</div>
+                        <div class="dropdown-items">
+                            <button class="dropdown-item">New Project</button>
+                            <hr>
+                            <button class="dropdown-item">Save</button>
+                            <button class="dropdown-item">Load</button>
+                            <hr>
+                            <button class="dropdown-item">Save As New</button>
+                            <button class="dropdown-item">Rewind To Last Save</button>
+                        </div>
+                    </div>
 
-    <p>
-        <a href="https://github.com/gducrash/catogre-edit">Visit on Github</a> <br>
-        <a href="https://scratch.mit.edu">Scratch Website</a>
-    </p>
+                    <div class="navbar-dropdown" tabindex="0">
+                        <div class="dropdown-head">Edit</div>
+                        <div class="dropdown-items">
+                            <button class="dropdown-item">Undo</button>
+                            <button class="dropdown-item">Redo</button>
+                            <hr>
+                            <button class="dropdown-item">Enable Turbo Mode</button>
+                            <button class="dropdown-item">Enable Full Screen</button>
+                            <hr>
+                            <button class="dropdown-item">Preferences</button>
+                            <button class="dropdown-item">Help</button>
+                        </div>
+                    </div>
 
-    <hr>
+                    <div class="navbar-dropdown" tabindex="0">
+                        <div class="dropdown-head">Info</div>
+                        <div class="dropdown-items">
+                            <button class="dropdown-item">Report Bug</button>
+                            <button class="dropdown-item">Contribute on Github</button>
+                            <hr>
+                            <button class="dropdown-item">About CatOgre</button>
+                            <button class="dropdown-item">Terms of Service</button>
+                            <hr>
+                            <button class="dropdown-item">Connect to Scratch</button>
+                        </div>
+                    </div>
+
+                    <div class="line"></div>
+
+                    <input type="text" class="navbar-name" id="projName" placeholder="Name Your Project" value="Untitled">
+                </div>
+                <div class="navbar-right">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main-space">
+            <div class="workspace">
+                <div class="code-edit">
+                    <div id="code" contenteditable="true"></div>
+                </div>
+            </div>
+            <div class="stage">
+                <div class="stage-player">
+                    <canvas width="400" height="300" id="stageCanvas"></canvas>
+                </div>
+                <div class="stage-sprites"></div>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script>
+
+    //smooth dragging algorithm with rotation
+    //item: the html item that would be draggable
+    //easeFactor: how slow the item would be following the mouse. 1 for instant
+    //rotFactor: how extreme the rotation will be. The more the number is the less extreme it'll be. 0 for no rotation
+
+    function setItemDraggable(item, easeFactor, rotFactor){
+        item.onmousedown = function(eDown){
+            let mousePos = {
+                x: eDown.pageX,
+                y: eDown.pageY
+            }
+
+            let diffX = mousePos.x - item.offsetLeft;
+            let diffY = mousePos.y - item.offsetTop;
+
+            let itemTop = item.offsetTop;
+            let itemLeft = item.offsetLeft;
+            let itemDirection = 0;
+
+            let targetX;
+            let targetY;
+
+            let interval = setInterval(function(){
+                targetX = mousePos.x - diffX;
+                targetY = mousePos.y - diffY;
+
+                itemTop += (targetY - itemTop)/easeFactor;
+                itemLeft += (targetX - itemLeft)/easeFactor;
+                itemDirection = Math.atan((targetX - itemLeft)/rotFactor);
+                if(rotFactor == 0) itemDirection = 0;
+
+                item.style.top = `${itemTop}px`;
+                item.style.left = `${itemLeft}px`;
+                item.style.transform = `rotate(${itemDirection}rad)`
+            }, 10);
+
+            document.onmousemove = function(e){
+                mousePos = {
+                    x: e.pageX,
+                    y: e.pageY
+                }
+            }
+
+            document.onmouseup = function(){
+                clearInterval(interval);
+                item.style.transform = null;
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+
+            item.ondragstart = function() {
+                return false;
+            };
+        }
+    }
+
+
+    //TODO: code highlight
+
+    /*let code = document.getElementById('code');
+
+    code.oninput = function(e){
+        let wordsList = code.innerHTML.split(' ');
+        for(let i = 0; i < wordsList.length; i++){
+            wordsList[i] = `<span>${wordsList[i]}</span>`;
+        }
+
+        console.log(wordsList);
+
+        code.innerHTML = wordsList.join(' ');
+    }*/
+</script>
 </html>

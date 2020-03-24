@@ -1,32 +1,190 @@
+/*
+    THEME COLOR: #FE2525
+*/
+
+*:focus{
+    outline: none;
+}
+
 body{
     margin: 0;
-    padding: 100px;
-    font-family: 'Roboto', sans-serif;
-    line-height: 30px;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#app{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #222;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* navbar */
+
+.navbar-wrap{
+    width: 100%;
+    height: 50px;
+    display: flex;
     background: #111;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    justify-content: center;
+    align-items: stretch;
+    border-bottom: 1px solid #000;
+    z-index: 999;
+}
+
+.navbar-content{
+    display: flex;
+    width: 100%;
+    margin: 0 50px;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.navbar-right, .navbar-left{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo{
+    height: 40px;
+}
+
+.navbar-content .line{
+    border-right: 1px dashed #333;
+    height: 50%;
+    margin: 0 20px;
+}
+
+.navbar-dropdown{
+    display: flex;
+    padding: 0 20px;
+    height: 50px;
+    user-select: none;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     color: #fff;
 }
-
-a{
-    color: #bd163d;
+.navbar-dropdown:hover{
+    background: rgba(0,0,0,.25);
+    color: #fe2525;
 }
-a:hover{
-    color: #d8204b;
-}
-
-h1{
-    font-weight: 900;
+.navbar-dropdown:focus{
+    outline: none;
+    background: rgba(0,0,0,.5);
 }
 
-.logo{
-    height: 50px;
+.navbar-dropdown .dropdown-items{
+    display: none;
+    flex-direction: column;
     position: absolute;
     top: 50px;
-    left: 100px;
+    left: 0;
+    background: #151515;
+    width: max-content;
+    overflow: hidden;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid #000;
+}
+.navbar-dropdown:focus .dropdown-items{
+    display: flex;
+}
+.navbar-dropdown:active .dropdown-items{
+    display: flex;
 }
 
-hr{
-    margin: 50px -100px;
+.dropdown-items hr{
+    width: 100%;
     border: none;
-    border-top: 1px solid #000;
+    border-top: 1px solid #0a0a0a;
+    margin: 0;
+}
+
+.dropdown-item{
+    border: none;
+    background: none;
+    color: #fff;
+    padding: 10px 20px;
+    width: fit-content;
+    user-select: none;
+    cursor: pointer;
+    width: 100%;
+    text-align-last: left;
+}
+.dropdown-item:hover{
+    background: rgba(0,0,0,.25);
+    color: #fe2525;
+}
+
+.dropdown-head{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* general */
+
+input{
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #000;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 4px;
+    transition: 0.25s ease;
+    transition-property: border, box-shadow;
+}
+input:focus{
+    outline: none;
+    border-color: #fe2525;
+    box-shadow: 0 0 0 3px rgba(254, 37, 37, 0.25);
+}
+
+/* workspace */
+
+.main-space{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.workspace{
+    background: #262626;
+    width: 100%;
+}
+
+.stage{
+    border-left: 1px solid #000;
+}
+
+.stage-player{
+    padding: 10px;
+    border-bottom: 1px solid #000;
+}
+
+#stageCanvas{
+    background: #fff;
+    border-radius: 4px;
+}
+
+.code-edit{
+    width: 100%;
+    height: 100%;
+    background: #0e0e0e;
+}
+
+#code{
+    padding: 10px;
+    color: #fff;
+    padding: 10px;
+    font-size: 12px;
+    font-family: 'Roboto Mono', monospace;
+    min-height: calc(100% - 20px);
 }
