@@ -69,7 +69,8 @@
         <div class="main-space">
             <div class="workspace">
                 <div class="code-edit">
-                    <div id="code" contenteditable="true"></div>
+                    <div id="code"></div>
+                    <textarea id="input" spellcheck="false"></textarea>
                 </div>
             </div>
             <div class="stage">
@@ -140,20 +141,46 @@
         }
     }
 
+    //Highlight Syntax
 
-    //TODO: code highlight
+    const codeArea = document.querySelector("#code")
+    const inputArea = document.querySelector("#input")
 
-    /*let code = document.getElementById('code');
+    const highlight = (str) => {
+        let lines = str.split("\n")
+        let events = /(whenFlagClicked|whenCloneStarts)/g
+        let classes = /(sprite|input)/g
+        let movement = /(goTo|turnCW|setX|setY|changeX|changeY)/g
+        let looks = /(sayFor|say)/g
+        let control = /(forever|if|createClone|wait|end|repeatUntil|else)/g
+        let numbers = /(-)?\d+/g
+        let symbols = /(\(|\)|;|{|})/g
+        let sensing = /(keyPressed)/g
+        let strings = /"(.*)"/g
+        codeArea.innerHTML = ""
+        lines.forEach(line => {
+            line = line.replace(strings, "<span class=\"string\">$&</span>")
+            line = line.replace(symbols, "<span class=\"symbol\">$&</span>")
+            line = line.replace(numbers, "<span class=\"number\">$&</span>")
+            line = line.replace(classes, "<span class=\"class\">$&</span>")
+            line = line.replace(movement, "<span class=\"movement\">$&</span>")
+            line = line.replace(looks, "<span class=\"looks\">$&</span>")
+            line = line.replace(events, "<span class=\"event\">$&</span>")
+            line = line.replace(control, "<span class=\"control\">$&</span>")
+            line = line.replace(sensing, "<span class=\"sensing\">$&</span>")
+            codeArea.innerHTML += `<div class="line">${line}</div>`
+        })
+    }
 
-    code.oninput = function(e){
-        let wordsList = code.innerHTML.split(' ');
-        for(let i = 0; i < wordsList.length; i++){
-            wordsList[i] = `<span>${wordsList[i]}</span>`;
-        }
+    window.addEventListener("load", () => {
+        inputArea.addEventListener("input", () => {
+            highlight(inputArea.value)
+        })
 
-        console.log(wordsList);
-
-        code.innerHTML = wordsList.join(' ');
-    }*/
+        inputArea.addEventListener("scroll", () => {
+            codeArea.scrollTop = inputArea.scrollTop
+            codeArea.scrollLeft = inputArea.scrollLeft
+        })
+    })
 </script>
 </html>
