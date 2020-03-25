@@ -32,11 +32,12 @@ body{
     height: 50px;
     display: flex;
     background: #111;
-    box-shadow: 0 2px 5px rgba(0,0,0,.25);
     justify-content: center;
     align-items: stretch;
     border-bottom: 1px solid #000;
     z-index: 999;
+    position: sticky;
+    top: 0;
 }
 
 .navbar-content{
@@ -159,6 +160,7 @@ input:focus{
 .workspace{
     background: #262626;
     width: 100%;
+    display: flex;
 }
 
 .stage{
@@ -177,6 +179,7 @@ input:focus{
 
 .code-edit{
     height: 100%;
+    width: 100%;
     background: #0e0e0e;
     position: relative;
     overflow: hidden;
@@ -185,24 +188,26 @@ input:focus{
 #code{
     padding: 10px;
     color: #fff;
-    padding: 10px;
     font-size: 12px;
     font-family: 'Roboto Mono', monospace;
     height: calc(100% - 20px);
     white-space: pre-wrap;
     overflow: hidden;
+    top: 0;
+    left: 20px;
+    position: absolute;
 }
 
 #input{
-    width: 100%;
+    width: calc(100% - 20px);
     height: 100%;
+    overflow-y: auto;
     top: 0;
-    left: 0;
+    left: 20px;
     position: absolute;
     margin: 0;
     border: none;
     resize: none;
-    padding: 0;
     background-color: transparent;
     color: transparent;
     box-sizing: border-box;
@@ -211,6 +216,11 @@ input:focus{
     font-family: 'Roboto Mono', monospace;
     caret-color: white;
     white-space: pre;
+    line-height: 20px;
+}
+#input::selection{
+    background: rgba(254, 37, 37, 0.5);
+    color: #fff;
 }
 
 #gutter {
@@ -222,8 +232,26 @@ input:focus{
 }
 
 .line {
-    height: 16px;
-    line-height: 16px;
+    height: 20px;
+    line-height: 20px;
+}
+
+.code-lines{
+    width: 50px;
+    border-right: 1px solid #333;
+    background: #0e0e0e;
+    min-height: 100%;
+    line-height: 20px;
+    padding: 10px 0;
+}
+.code-lines p{
+    font-size: 12px;
+    padding-right: 20px;
+    margin: 0;
+    height: 20px;
+    text-align: right;
+    color: #555;
+    font-family: 'Roboto Mono', monospace;
 }
 
 /* 
@@ -233,23 +261,23 @@ block types
 */
 
 .event{
-    color: rgb(255, 170, 72)
+    color: rgb(253, 239, 112)
 }
 
 .movement{
-    color: rgb(57, 110, 255)
+    color: rgb(77, 121, 240)
 }
 
 .looks{
-    color: purple;
+    color: rgb(171, 102, 236);
 }
 
 .control {
-    color: rgb(255, 217, 0);
+    color: rgb(255, 191, 95);
 }
 
 .sensing {
-    color: rgb(145, 213, 240);
+    color: rgb(113, 206, 243);
 }
 
 /* 
@@ -259,15 +287,15 @@ misc
 */
 
 .number {
-    color: rgb(80, 185, 255);
+    color: rgb(255, 173, 118);
 }
 
 .symbol {
-    color: rgb(68, 68, 68);
+    color: rgb(117, 117, 117);
 }
 
 .string {
-    color: rgb(255, 124, 124);
+    color: rgb(165, 255, 124);
 }
 
 .string .number {
@@ -275,7 +303,7 @@ misc
 }
 
 .class {
-    color: teal;
+    color: rgb(96, 240, 103);
 }
 
 .string .class {

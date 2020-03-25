@@ -68,6 +68,7 @@
 
         <div class="main-space">
             <div class="workspace">
+                <div class="code-lines" id="linesCount"></div>
                 <div class="code-edit">
                     <div id="code"></div>
                     <textarea id="input" spellcheck="false"></textarea>
@@ -143,8 +144,34 @@
 
     //Highlight Syntax
 
-    const codeArea = document.querySelector("#code")
-    const inputArea = document.querySelector("#input")
+    const codeArea = document.querySelector("#code");
+    const inputArea = document.querySelector("#input");
+
+    let currentLine = 0;
+
+    let commandsList = [
+        {
+            command: 'whenFlagClicked',
+            type: 'event',
+            category: 'events',
+            autocomplete: 'whenFlagClicked:',
+            description: 'Triggers every time the user clicks on green flag.'
+        },
+        {
+            command: 'goTo',
+            type: 'function',
+            category: 'motion',
+            autocomplete: 'goTo(0, 0);',
+            description: 'Places the sprite in a certain position on the stage (x from -240 to 240 and y from -180 to 180)'
+        },
+        {
+            command: 'say',
+            type: 'function',
+            category: 'looks',
+            autocomplete: 'say("");',
+            description: 'Adds a speech ballon near the sprites where certain text can be displayed. To remove the ballon, simply type "" as an argument.'
+        }
+    ]
 
     const highlight = (str) => {
         let lines = str.split("\n")
@@ -168,19 +195,32 @@
             line = line.replace(events, "<span class=\"event\">$&</span>")
             line = line.replace(control, "<span class=\"control\">$&</span>")
             line = line.replace(sensing, "<span class=\"sensing\">$&</span>")
-            codeArea.innerHTML += `<div class="line">${line}</div>`
+              codeArea.innerHTML += `<div class="line">${line}</div>`
         })
     }
 
     window.addEventListener("load", () => {
         inputArea.addEventListener("input", () => {
-            highlight(inputArea.value)
+            highlight(inputArea.value);
         })
 
         inputArea.addEventListener("scroll", () => {
-            codeArea.scrollTop = inputArea.scrollTop
-            codeArea.scrollLeft = inputArea.scrollLeft
+            codeArea.scrollTop = inputArea.scrollTop;
+            codeArea.scrollLeft = inputArea.scrollLeft;
+            document.getElementById('linesCount').style.marginTop = `-${inputArea.scrollTop}px`;
         })
-    })
+    });
+
+    //Lines Counter
+    function renderLines(){
+        let linesCount = document.getElementById('linesCount');
+        linesCount.innerHTML = null;
+        let lineslen = codeArea.children.length;
+        for(let i = 0; i < lineslen; i++){
+            linesCount.innerHTML += `<p>${i+1}</p>`;
+        }
+    }
+
+    codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
 </script>
 </html>
