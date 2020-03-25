@@ -153,6 +153,7 @@ input:focus{
     height: 100%;
     display: flex;
     justify-content: center;
+    overflow: hidden;
 }
 
 .workspace{
@@ -175,9 +176,10 @@ input:focus{
 }
 
 .code-edit{
-    width: 100%;
     height: 100%;
     background: #0e0e0e;
+    position: relative;
+    overflow: hidden;
 }
 
 #code{
@@ -186,5 +188,96 @@ input:focus{
     padding: 10px;
     font-size: 12px;
     font-family: 'Roboto Mono', monospace;
-    min-height: calc(100% - 20px);
+    height: calc(100% - 20px);
+    white-space: pre-wrap;
+    overflow: hidden;
+}
+
+#input{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    margin: 0;
+    border: none;
+    resize: none;
+    padding: 0;
+    background-color: transparent;
+    color: transparent;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 12px;
+    font-family: 'Roboto Mono', monospace;
+    caret-color: white;
+    white-space: pre;
+}
+
+#gutter {
+    height: 100%;
+    width: 30px;
+    color: white;
+    background: #111;
+    margin: 0;
+}
+
+.line {
+    height: 16px;
+    line-height: 16px;
+}
+
+/* 
+syntax 
+------
+block types
+*/
+
+.event{
+    color: rgb(255, 170, 72)
+}
+
+.movement{
+    color: rgb(57, 110, 255)
+}
+
+.looks{
+    color: purple;
+}
+
+.control {
+    color: rgb(255, 217, 0);
+}
+
+.sensing {
+    color: rgb(145, 213, 240);
+}
+
+/* 
+syntax
+------
+misc
+*/
+
+.number {
+    color: rgb(80, 185, 255);
+}
+
+.symbol {
+    color: rgb(68, 68, 68);
+}
+
+.string {
+    color: rgb(255, 124, 124);
+}
+
+.string .number {
+    color: rgb(255, 124, 124);
+}
+
+.class {
+    color: teal;
+}
+
+.string .class {
+    color: rgb(255, 124, 124);
 }
