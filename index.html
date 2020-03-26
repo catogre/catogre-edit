@@ -97,27 +97,29 @@
 
     const highlight = (str) => {
         let lines = str.split("\n")
-        let events = /(whenFlagClicked|whenCloneStarts)/g
         let classes = /(sprite|input)/g
-        let movement = /(goTo|turnCW|setX|setY|changeX|changeY)/g
-        let looks = /(sayFor|say)/g
-        let control = /(forever|if|createClone|wait|end|repeatUntil|else)/g
         let numbers = /(-)?\d+/g
         let symbols = /(\(|\)|;|{|})/g
         let sensing = /(keyPressed)/g
         let strings = /"(.*)"/g
-        codeArea.innerHTML = ""
+        codeArea.innerHTML = "";
+
+        
         lines.forEach(line => {
             line = line.replace(strings, "<span class=\"string\">$&</span>")
             line = line.replace(symbols, "<span class=\"symbol\">$&</span>")
             line = line.replace(numbers, "<span class=\"number\">$&</span>")
             line = line.replace(classes, "<span class=\"class\">$&</span>")
-            line = line.replace(movement, "<span class=\"movement\">$&</span>")
-            line = line.replace(looks, "<span class=\"looks\">$&</span>")
-            line = line.replace(events, "<span class=\"event\">$&</span>")
-            line = line.replace(control, "<span class=\"control\">$&</span>")
-            line = line.replace(sensing, "<span class=\"sensing\">$&</span>")
-              codeArea.innerHTML += `<div class="line">${line}</div>`
+
+            commandsList.forEach(com => {
+                let filter = line.includes(com.command);
+                if(filter){
+                    let r = new RegExp(com.command, 'g');
+                    line = line.replace(r, `<span class=\"${com.category}\">$&</span>`);
+                }
+            });
+
+            codeArea.innerHTML += `<div class="line">${line}</div>`
         })
     }
 
@@ -137,6 +139,13 @@
                 let selStart = inputArea.selectionStart;
                 let selEnd = inputArea.selectionEnd;
                 inputArea.value = `${inputArea.value.slice(0, selStart)}}${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart, selEnd);
+                highlight(inputArea.value);
+            }
+            else if(e.data == '"'){
+                let selStart = inputArea.selectionStart;
+                let selEnd = inputArea.selectionEnd;
+                inputArea.value = `${inputArea.value.slice(0, selStart)}"${inputArea.value.slice(selEnd)}`;
                 inputArea.setSelectionRange(selStart, selEnd);
                 highlight(inputArea.value);
             }
@@ -163,8 +172,8 @@
             if(e.keyCode == 9){
                 let selStart = inputArea.selectionStart;
                 let selEnd = inputArea.selectionEnd;
-                inputArea.value = `${inputArea.value.slice(0, selStart)}  ${inputArea.value.slice(selEnd)}`;
-                inputArea.setSelectionRange(selStart + 2, selEnd  + 2);
+                inputArea.value = `${inputArea.value.slice(0, selStart)}    ${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart + 4, selEnd  + 4);
                 highlight(inputArea.value);
             }
         });

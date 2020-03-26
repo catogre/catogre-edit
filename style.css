@@ -265,15 +265,15 @@ syntax
 block types
 */
 
-.event{
+.events {
     color: rgb(253, 239, 112)
 }
 
-.movement{
+.motion {
     color: rgb(77, 121, 240)
 }
 
-.looks{
+.looks {
     color: rgb(171, 102, 236);
 }
 
