@@ -161,6 +161,7 @@ input:focus{
     background: #262626;
     width: 100%;
     display: flex;
+    position: relative;
 }
 
 .stage{
@@ -189,7 +190,7 @@ input:focus{
     color: #fff;
     font-size: 12px;
     font-family: 'Roboto Mono', monospace;
-    height: calc(100% - 20px);
+    height: calc(100% - 40px);
     white-space: pre-wrap;
     overflow: hidden;
     top: 0;
@@ -257,6 +258,57 @@ input:focus{
     text-align: right;
     color: #555;
     font-family: 'Roboto Mono', monospace;
+}
+
+.code-autocomplete{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #333;
+    border-radius: 4px;
+    z-index: 10;
+    width: 300px;
+    overflow: auto;
+    display: none;
+}
+.code-autocomplete.active{
+    display: block;
+}
+
+.autocomplete-item{
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    height: 35px;
+    border-bottom: 1px solid #000;
+}
+.autocomplete-item:hover{
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    user-select: none;
+}
+.autocomplete-item.sel{
+    background: rgba(255,255,255,0.1);
+}
+
+
+.autocomplete-item h4{
+    margin: 0;
+    margin-right: 10px;
+    font-size: 12px;
+    width: 40%;
+}
+.autocomplete-item p{
+    margin: 0;
+    font-size: 10px;
+    color: #aaa;
+    width: 60%;
+    height: 100%;
+    overflow: auto;
+}
+.autocomplete-item p::-webkit-scrollbar{
+    width: 0;
+    height: 0;
 }
 
 /* 
