@@ -186,7 +186,6 @@ input:focus{
 }
 
 #code{
-    padding: 10px;
     color: #fff;
     font-size: 12px;
     font-family: 'Roboto Mono', monospace;
@@ -194,8 +193,9 @@ input:focus{
     white-space: pre-wrap;
     overflow: hidden;
     top: 0;
-    left: 20px;
     position: absolute;
+    padding: 10px 0;
+    width: 100%;
 }
 
 #input{
@@ -231,9 +231,14 @@ input:focus{
     margin: 0;
 }
 
-.line {
+#code .line {
     height: 20px;
     line-height: 20px;
+    width: 100%;
+    padding: 0 30px;
+}
+#code .line.sel{
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .code-lines{

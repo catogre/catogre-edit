@@ -84,94 +84,16 @@
     </div>
 </body>
 
+<script src="./scripts/commandsList.js"></script>
+<script src="./scripts/smoothDrag.js"></script>
 <script>
-
-    //smooth dragging algorithm with rotation
-    //item: the html item that would be draggable
-    //easeFactor: how slow the item would be following the mouse. 1 for instant
-    //rotFactor: how extreme the rotation will be. The more the number is the less extreme it'll be. 0 for no rotation
-
-    function setItemDraggable(item, easeFactor, rotFactor){
-        item.onmousedown = function(eDown){
-            let mousePos = {
-                x: eDown.pageX,
-                y: eDown.pageY
-            }
-
-            let diffX = mousePos.x - item.offsetLeft;
-            let diffY = mousePos.y - item.offsetTop;
-
-            let itemTop = item.offsetTop;
-            let itemLeft = item.offsetLeft;
-            let itemDirection = 0;
-
-            let targetX;
-            let targetY;
-
-            let interval = setInterval(function(){
-                targetX = mousePos.x - diffX;
-                targetY = mousePos.y - diffY;
-
-                itemTop += (targetY - itemTop)/easeFactor;
-                itemLeft += (targetX - itemLeft)/easeFactor;
-                itemDirection = Math.atan((targetX - itemLeft)/rotFactor);
-                if(rotFactor == 0) itemDirection = 0;
-
-                item.style.top = `${itemTop}px`;
-                item.style.left = `${itemLeft}px`;
-                item.style.transform = `rotate(${itemDirection}rad)`
-            }, 10);
-
-            document.onmousemove = function(e){
-                mousePos = {
-                    x: e.pageX,
-                    y: e.pageY
-                }
-            }
-
-            document.onmouseup = function(){
-                clearInterval(interval);
-                item.style.transform = null;
-                document.onmousemove = null;
-                document.onmouseup = null;
-            }
-
-            item.ondragstart = function() {
-                return false;
-            };
-        }
-    }
-
+    
     //Highlight Syntax
 
     const codeArea = document.querySelector("#code");
     const inputArea = document.querySelector("#input");
 
     let currentLine = 0;
-
-    let commandsList = [
-        {
-            command: 'whenFlagClicked',
-            type: 'event',
-            category: 'events',
-            autocomplete: 'whenFlagClicked:',
-            description: 'Triggers every time the user clicks on green flag.'
-        },
-        {
-            command: 'goTo',
-            type: 'function',
-            category: 'motion',
-            autocomplete: 'goTo(0, 0);',
-            description: 'Places the sprite in a certain position on the stage (x from -240 to 240 and y from -180 to 180)'
-        },
-        {
-            command: 'say',
-            type: 'function',
-            category: 'looks',
-            autocomplete: 'say("");',
-            description: 'Adds a speech ballon near the sprites where certain text can be displayed. To remove the ballon, simply type "" as an argument.'
-        }
-    ]
 
     const highlight = (str) => {
         let lines = str.split("\n")
@@ -200,15 +122,59 @@
     }
 
     window.addEventListener("load", () => {
-        inputArea.addEventListener("input", () => {
+        inputArea.addEventListener("input", (e) => {
             highlight(inputArea.value);
-        })
+            updateCurrentLine();
 
+            //autocomplete brackets
+            if(e.data == '('){
+                let selStart = inputArea.selectionStart;
+                let selEnd = inputArea.selectionEnd;
+                inputArea.value = `${inputArea.value.slice(0, selStart)})${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart, selEnd);
+                highlight(inputArea.value);
+            }else if(e.data == '{'){
+                let selStart = inputArea.selectionStart;
+                let selEnd = inputArea.selectionEnd;
+                inputArea.value = `${inputArea.value.slice(0, selStart)}}${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart, selEnd);
+                highlight(inputArea.value);
+            }
+        });
+
+        //prevents browser's response to tab key when you're editing the input
+        window.onkeydown = (e) => {
+            if(document.activeElement == inputArea && e.keyCode == 9) return false;
+        }
+
+        //these event listeners together should trigger when caret's position changes, 
+        //since there's no built-in listener for that
+        inputArea.addEventListener("mousedown", () => {
+            setTimeout(() => updateCurrentLine(), 10);
+            inputArea.onmousemove = () => updateCurrentLine();
+        });
+        inputArea.addEventListener("mouseup", () => {
+            inputArea.onmousemove = null;
+            updateCurrentLine();
+        });
+        inputArea.addEventListener("keydown", (e) => {
+            setTimeout(() => updateCurrentLine(), 10);
+            
+            if(e.keyCode == 9){
+                let selStart = inputArea.selectionStart;
+                let selEnd = inputArea.selectionEnd;
+                inputArea.value = `${inputArea.value.slice(0, selStart)}  ${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart + 2, selEnd  + 2);
+                highlight(inputArea.value);
+            }
+        });
+
+        //properly react to scrolling
         inputArea.addEventListener("scroll", () => {
             codeArea.scrollTop = inputArea.scrollTop;
             codeArea.scrollLeft = inputArea.scrollLeft;
             document.getElementById('linesCount').style.marginTop = `-${inputArea.scrollTop}px`;
-        })
+        });
     });
 
     //Lines Counter
@@ -219,6 +185,34 @@
         for(let i = 0; i < lineslen; i++){
             linesCount.innerHTML += `<p>${i+1}</p>`;
         }
+    }
+
+    //get the number of the line the user is currently on
+    function getCurrentLine(){
+        let inputSplited = inputArea.value.split('\n');
+        let char = 1;
+        for(let i = 0; i < inputSplited.length; i++){
+            for(let h = 0; h < inputSplited[i].length; h++){
+                if(inputArea.selectionStart == inputArea.selectionEnd && inputArea.selectionStart == char){
+                    return i;
+                }
+                char++;
+            }
+            char++;
+        }
+        if(inputArea.selectionStart != inputArea.selectionEnd){
+            char = null;
+            return char;
+        }
+    }
+
+    //highlight the line the user is currently on
+    function updateCurrentLine(){
+        for(let i = 0; i < codeArea.children.length; i++){
+            codeArea.children[i].classList.remove('sel');
+        }
+        currentLine = getCurrentLine();
+        if(currentLine!= null) codeArea.children[currentLine].classList.add('sel');
     }
 
     codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
