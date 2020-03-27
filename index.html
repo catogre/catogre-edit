@@ -74,6 +74,11 @@
         <div class="main-space">
             <div class="code-palette" id="palette">
                 <div id="paletteResize"></div>
+                <div id="paletteContent">
+                    <div class="palette-item">
+                        <span class="events">whenFlagClicked:</span>
+                    </div>
+                </div>
             </div>
             <div class="workspace">
                 <div class="code-lines" id="linesCount"></div>
@@ -133,7 +138,7 @@
         let strings = /"(.*)"/g;
         codeArea.innerHTML = "";
 
-        
+        let lineOrder = 0;
         lines.forEach(line => {
             line = line.replace(strings, "<span class=\"string\">$&</span>")
             line = line.replace(symbols, "<span class=\"symbol\">$&</span>")
@@ -148,7 +153,8 @@
                 }
             });
 
-            codeArea.innerHTML += `<div class="line">${line}</div>`
+            codeArea.innerHTML += `<div class="line" style="order: ${lineOrder}">${line}</div>`;
+            lineOrder+=2;
         })
     }
 
@@ -388,5 +394,36 @@
             }
         }
     }
+
+    //code palette
+    function addPaletteItem(content, category){
+        let item = document.createElement('div');
+        item.classList.add('palette-item');
+        item.innerHTML = `<span class=${category}>${content}</span>`;
+        paletteContent.appendChild(item);
+        item.onmousedown = (e) => {
+            let itemCopy = document.createElement('div');
+            itemCopy.classList.add('palette-item');
+            itemCopy.innerHTML = `<span class=${category}>${content}</span>`;
+            itemCopy.style.position = 'fixed';
+            document.getElementById('app').appendChild(itemCopy);
+            itemCopy.style.top = `${e.pageY}px`;
+            itemCopy.style.left = `${e.pageX}px`;
+            itemCopy.style.width = `${paletteContent.clientWidth-40}px`;
+            itemCopy.style.zIndex = 999;
+            setItemPaletteDraggable(itemCopy, 5, 200, e);
+            document.getElementById('app').onmouseup = () => {
+                itemCopy.style.animation = `paletteItemDestroy 0.25s ease`;
+                itemCopy.style.opacity = 0;
+                setTimeout(() => document.getElementById('app').removeChild(itemCopy), 250);
+                document.getElementById('app').onmouseup = null;
+            }
+        }
+    }
+
+    paletteContent.innerHTML = '';
+    commandsList.forEach(item => {
+        addPaletteItem(item.autocomplete, item.category);
+    });
 </script>
 </html>

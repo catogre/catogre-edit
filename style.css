@@ -239,6 +239,7 @@ input:focus{
     top: 0;
     position: absolute;
     padding: 10px 0;
+    flex-direction: column;
     min-width: 100%;
 }
 
@@ -286,6 +287,13 @@ input:focus{
     background: rgba(255, 255, 255, 0.1);
 }
 
+.temp-line{
+    height: 20px;
+    width: 100%;
+    padding: 0 30px;
+    background: rgba(255, 255, 255, 1);
+}
+
 .code-lines{
     width: 50px;
     border-right: 1px solid #333;
@@ -329,7 +337,7 @@ input:focus{
     padding: 10px;
     display: flex;
     height: 20px;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #222;
 }
 .autocomplete-item:hover{
     background: rgba(255,255,255,0.05);
@@ -432,6 +440,27 @@ input:focus{
     cursor: col-resize;
 }
 
+#paletteContent{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    padding: 10px;
+}
+.palette-item{
+    padding: 10px;
+    background: #333;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Roboto Mono', monospace;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    user-select: none;
+    cursor: grab;
+}
+.palette-item:active{
+    cursor: grabbing;
+}
+
 /* 
 syntax 
 ------
@@ -516,6 +545,17 @@ misc
     }
     99%{
         display: flex;
+        opacity: 0;
+    }
+}
+
+@keyframes paletteItemDestroy{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(0.4);
         opacity: 0;
     }
 }

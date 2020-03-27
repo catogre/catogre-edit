@@ -1,5 +1,6 @@
 const palette = document.querySelector('#palette');
 const paletteResize = document.querySelector('#paletteResize');
+const paletteContent = document.querySelector('#paletteContent');
 
 paletteResize.onmousedown = (eDown) => {
     let clientWidthDefore = palette.clientWidth;
