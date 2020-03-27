@@ -196,7 +196,7 @@ input:focus{
     top: 0;
     position: absolute;
     padding: 10px 0;
-    width: 100%;
+    min-width: 100%;
 }
 
 #input{
@@ -235,8 +235,9 @@ input:focus{
 #code .line {
     height: 20px;
     line-height: 20px;
-    width: 100%;
+    min-width: 100%;
     padding: 0 30px;
+    white-space: pre;
 }
 #code .line.sel{
     background: rgba(255, 255, 255, 0.1);
@@ -270,6 +271,8 @@ input:focus{
     width: 300px;
     overflow: auto;
     display: none;
+    border: 1px solid #000;
+    box-shadow: 0 2px 5px rgba(0,0,0,.5);
 }
 .code-autocomplete.active{
     display: block;
@@ -288,7 +291,7 @@ input:focus{
     user-select: none;
 }
 .autocomplete-item.sel{
-    background: rgba(255,255,255,0.1);
+    background: rgba(254, 37, 37, 0.25);
 }
 
 
@@ -297,6 +300,8 @@ input:focus{
     margin-right: 10px;
     font-size: 12px;
     width: 40%;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
 }
 .autocomplete-item p{
     margin: 0;

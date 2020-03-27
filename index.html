@@ -144,11 +144,16 @@
             if(autocompleteWord != ''){
                 autocompleteFilter = commandsList.filter(f => f.command.startsWith(autocompleteWord));
                 autocompleteList.innerHTML = "";
-                autocompleteFilter.forEach(command => {
-                    addAutocompleteItem(command.command, command.category, command.description);
-                });
-                showAutocomplete();
-                setAutocompleteSelection(autocompleteSelection);
+                if(autocompleteFilter != ""){
+                    autocompleteFilter.forEach(command => {
+                        addAutocompleteItem(command.command, command.category, command.description);
+                    });
+                    showAutocomplete();
+                    setAutocompleteSelection(autocompleteSelection);
+                }else{
+                    hideAutocomplete();
+                    autocompleteSelection = 0;
+                }
             }else{
                 hideAutocomplete();
                 autocompleteSelection = 0;
@@ -201,6 +206,12 @@
                     hideAutocomplete();
                     autocompleteSelection = 0;
                 }
+            }else{
+                if(e.keyCode == 13 || e.keyCode == 9){
+                    autocompleteWord = '';
+                    autocompleteSelection = 0;
+                    hideAutocomplete();
+                }
             }
         }
 
@@ -209,6 +220,9 @@
         inputArea.addEventListener("mousedown", () => {
             setTimeout(() => updateCurrentLine(), 10);
             inputArea.onmousemove = () => updateCurrentLine();
+            hideAutocomplete();
+            autocompleteSelection = 0;
+            autocompleteWord = '';
         });
         inputArea.addEventListener("mouseup", () => {
             inputArea.onmousemove = null;
@@ -255,7 +269,7 @@
         //properly react to scrolling
         inputArea.addEventListener("scroll", () => {
             codeArea.scrollTop = inputArea.scrollTop;
-            codeArea.scrollLeft = inputArea.scrollLeft;
+            codeArea.style.left = `${-inputArea.scrollLeft}px`;
             document.getElementById('linesCount').style.marginTop = `-${inputArea.scrollTop}px`;
         });
     });
@@ -308,7 +322,8 @@
         autocompleteList.innerHTML += `<div class="autocomplete-item">
             <h4 class="${category}">${heading}</h4>
             <p>${descr}</p>
-        </div>`
+        </div>`;
+        updateAutocompleteEvents();
     }
 
     function showAutocomplete (){
@@ -324,6 +339,25 @@
             autocompleteList.children[i].classList.remove('sel');
         }
         autocompleteList.children[n].classList.add('sel');
+    }
+
+    function updateAutocompleteEvents(){
+        for(let i = 0; i < autocompleteList.children.length; i++){
+            autocompleteList.children[i].onclick = () => {
+                autocompleteSelection = i;
+                setAutocompleteSelection(autocompleteSelection);
+
+                let selStart = inputArea.selectionStart;
+                let selEnd = inputArea.selectionEnd;
+                let a = autocompleteFilter[autocompleteSelection].autocomplete.slice(autocompleteWord.length);
+                inputArea.value = `${inputArea.value.slice(0, selStart)}${a}${inputArea.value.slice(selEnd)}`;
+                inputArea.setSelectionRange(selStart + a.length, selEnd  + a.length);
+                autocompleteWord = '';
+                hideAutocomplete();
+                autocompleteSelection = 0;
+                highlight(inputArea.value);
+            }
+        }
     }
 </script>
 </html>
