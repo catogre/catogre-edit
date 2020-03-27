@@ -112,6 +112,44 @@ let stageResizeContext = [
             else return false;
         }
     },
+    {
+        name: 'Mini Stage',
+        icon: 'image-size-select-small',
+        function: function(){
+            stageCanvas.style.margin = '-90px -120px';
+            stageCanvas.style.transform = 'scale(0.5)';
+        },
+        checkDisabled: function(){
+            if(stageCanvas.style.margin != '-90px -120px') return true;
+            else return false;
+        }
+    },
+    {
+        name: 'Big Stage',
+        icon: 'fullscreen',
+        function: function(){
+            stageCanvas.style.margin = '45px 60px';
+            stageCanvas.style.transform = 'scale(1.25)';
+        },
+        checkDisabled: function(){
+            if(stageCanvas.style.margin != '45px 60px') return true;
+            else return false;
+        }
+    },
+];
+
+let paletteResizeContext = [
+    {
+        name: 'Reset Size',
+        icon: 'arrow-top-left-bottom-right',
+        function: function(){
+            palette.style.width = null;
+        },
+        checkDisabled: function(){
+            if(palette.style.width != '') return true;
+            else return false;
+        }
+    }
 ];
 
 let stageCanvasContext = [
@@ -182,6 +220,15 @@ document.querySelector('#stageResize').oncontextmenu = (e) => {
         y: e.pageY,
     }
     showContextMenu(stageResizeContext);
+    return false;
+}
+
+document.querySelector('#paletteResize').oncontextmenu = (e) => {
+    mousePos = {
+        x: e.pageX,
+        y: e.pageY,
+    }
+    showContextMenu(paletteResizeContext);
     return false;
 }
 

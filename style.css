@@ -25,6 +25,38 @@ body{
     overflow-y: auto;
 }
 
+/* splash screen */
+
+#splash{
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(254, 37, 37, 0.4);   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#splash img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    animation: splashImg 1s infinite linear;
+}
+#splash h2{
+    color: #fff;
+    font-weight: 600;
+    margin-top: 25px;
+    font-size: 30px;
+}
+#splash.hid{
+    animation: splashHid 0.5s ease;
+    opacity: 0;
+}
+
 /* navbar */
 
 .navbar-wrap{
@@ -382,6 +414,24 @@ input:focus{
     background: none;
 }
 
+.code-palette{
+    width: 250px;
+    border-right: 1px solid #000;
+    background: #151515;
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 15;
+}
+#paletteResize{
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 20px;
+    height: 100%;
+    cursor: col-resize;
+}
+
 /* 
 syntax 
 ------
@@ -447,5 +497,25 @@ misc
     }
     100%{
         opacity: 1;
+    }
+}
+
+@keyframes splashImg{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes splashHid{
+    0%{
+        display: flex;
+        opacity: 1;
+    }
+    99%{
+        display: flex;
+        opacity: 0;
     }
 }
