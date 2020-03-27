@@ -166,11 +166,21 @@ input:focus{
 
 .stage{
     border-left: 1px solid #000;
+    position: relative;
 }
 
 .stage-player{
     padding: 10px;
     border-bottom: 1px solid #000;
+}
+
+#stageResize{
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: 20px;
+    height: 100%;
+    cursor: col-resize;
 }
 
 #stageCanvas{
@@ -250,6 +260,9 @@ input:focus{
     min-height: 100%;
     line-height: 20px;
     padding: 10px 0;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
 }
 .code-lines p{
     font-size: 12px;
