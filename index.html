@@ -238,7 +238,7 @@
                     autocompleteSelection = 0;
                 }else{
                     if(e.keyCode == 13) return;
-                    inputArea.value = `${inputArea.value.slice(0, selStart)}${inputArea.value.slice(selEnd)}`;
+                    inputArea.value = `${inputArea.value.slice(0, selStart)}    ${inputArea.value.slice(selEnd)}`;
                     inputArea.setSelectionRange(selStart + 4, selEnd  + 4);
                 } 
                 highlight(inputArea.value);
