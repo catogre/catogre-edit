@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CatOgre Editor 🚧 Under Construction</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 
@@ -106,55 +106,19 @@
 
 <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
 
-<script src="./scripts/splash.js"></script>
+<script src="scripts/splash.js"></script>
 
-<script src="./scripts/commandsList.js"></script>
-<script src="./scripts/smoothDrag.js"></script>
-<script src="./scripts/textareaTextPosition.js"></script>
-<script src="./scripts/stageResize.js"></script>
-<script src="./scripts/paletteResize.js"></script>
-<script src="./scripts/contextMenu.js"></script>
+<script src="scripts/commandsList.js"></script>
+<script src="scripts/smoothDrag.js"></script>
+<script src="scripts/textareaTextPosition.js"></script>
+<script src="scripts/stageResize.js"></script>
+<script src="scripts/paletteResize.js"></script>
+<script src="scripts/contextMenu.js"></script>
+
+<script src="scripts/hightlight.js"></script>
+<script src="scripts/autocomplete.js"></script>
 
 <script>
-
-    //Highlight Syntax
-
-    const codeArea = document.querySelector("#code");
-    const inputArea = document.querySelector("#input");
-    const autocompleteList = document.querySelector("#autocompleteList");
-
-    let currentLine = 0;
-
-    let autocompleteVisible = false;
-    let autocompleteWord = '';
-    let autocompleteSelection = 0;
-    let autocompleteFilter;
-
-    const highlight = (str) => {
-        let lines = str.split("\n");
-        let classes = /(sprite|input)/g;
-        let numbers = /(-)?\d+/g;
-        let symbols = /(\(|\)|;|{|})/g;
-        let strings = /"(.*)"/g;
-        codeArea.innerHTML = "";
-
-        lines.forEach(line => {
-            line = line.replace(strings, "<span class=\"string\">$&</span>")
-            line = line.replace(symbols, "<span class=\"symbol\">$&</span>")
-            line = line.replace(numbers, "<span class=\"number\">$&</span>")
-            line = line.replace(classes, "<span class=\"class\">$&</span>")
-
-            commandsList.forEach(com => {
-                let filter = line.includes(com.command);
-                if(filter){
-                    let r = new RegExp(com.command, 'g');
-                    line = line.replace(r, `<span class=\"${com.category}\">$&</span>`);
-                }
-            });
-
-            codeArea.innerHTML += `<div class="line">${line}</div>`;
-        })
-    }
 
     window.addEventListener("load", () => {
         hideSplash();
@@ -274,7 +238,7 @@
                     autocompleteSelection = 0;
                 }else{
                     if(e.keyCode == 13) return;
-                    inputArea.value = `${inputArea.value.slice(0, selStart)}    ${inputArea.value.slice(selEnd)}`;
+                    inputArea.value = `${inputArea.value.slice(0, selStart)}${inputArea.value.slice(selEnd)}`;
                     inputArea.setSelectionRange(selStart + 4, selEnd  + 4);
                 } 
                 highlight(inputArea.value);
@@ -349,49 +313,6 @@
     }
 
     codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
-
-    //autocomplete
-    function addAutocompleteItem(heading, category, descr){
-        autocompleteList.innerHTML += `<div class="autocomplete-item">
-            <h4 class="${category}">${heading}</h4>
-            <p>${descr}</p>
-        </div>`;
-        updateAutocompleteEvents();
-    }
-
-    function showAutocomplete (){
-        autocompleteList.classList.add('active');
-        autocompleteVisible = true;
-    }
-    function hideAutocomplete (){
-        autocompleteList.classList.remove('active');
-        autocompleteVisible = false;
-    }
-    function setAutocompleteSelection (n){
-        for(let i = 0; i < autocompleteList.children.length; i++){
-            autocompleteList.children[i].classList.remove('sel');
-        }
-        autocompleteList.children[n].classList.add('sel');
-    }
-
-    function updateAutocompleteEvents(){
-        for(let i = 0; i < autocompleteList.children.length; i++){
-            autocompleteList.children[i].onclick = () => {
-                autocompleteSelection = i;
-                setAutocompleteSelection(autocompleteSelection);
-
-                let selStart = inputArea.selectionStart;
-                let selEnd = inputArea.selectionEnd;
-                let a = autocompleteFilter[autocompleteSelection].autocomplete.slice(autocompleteWord.length);
-                inputArea.value = `${inputArea.value.slice(0, selStart)}${a}${inputArea.value.slice(selEnd)}`;
-                inputArea.setSelectionRange(selStart + a.length, selEnd  + a.length);
-                autocompleteWord = '';
-                hideAutocomplete();
-                autocompleteSelection = 0;
-                highlight(inputArea.value);
-            }
-        }
-    }
 
     //code palette
     function addPaletteItem(content, category, type){

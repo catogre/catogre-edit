@@ -54,6 +54,7 @@ function setItemDraggable(item, easeFactor, rotFactor){
     }
 }
 
+//smooth drag for code palette items
 function setItemPaletteDraggable(item, content, category, insertType, easeFactor, rotFactor, eDown){
     let mousePos = {
         x: eDown.pageX,
@@ -62,8 +63,6 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
 
     let diffX = mousePos.x - 10;
     let diffY = mousePos.y - item.offsetTop + 10;
-
-    console.log(diffX, diffY);
 
     let itemTop = item.offsetTop;
     let itemLeft = 10;
@@ -85,6 +84,8 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         tempSpan.classList.add('temp-span', category);
         tempSpan.appendChild(document.createTextNode(content));
     }
+
+    let overCodeArea = false;
 
     let interval = setInterval(function(){
         targetX = mousePos.x - diffX;
@@ -157,6 +158,9 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         }
     }
 
+    inputArea.onmouseover = () => overCodeArea = true;
+    inputArea.onmouseout = () => overCodeArea = false;
+
     document.onmousemove = function(e){
         if (insertType === 'LINE') {
             tempLine.remove();
@@ -169,16 +173,14 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             y: e.pageY
         }
 
-        const rect = code.getBoundingClientRect();
-        if (mousePos.x < rect.left || mousePos.y < rect.top || mousePos.x > rect.right || mousePos.y > rect.bottom) {
-            return;
-        }
+        let codeAreaRect = codeArea.getBoundingClientRect();
+        let rectMatchX = mousePos.x > codeAreaRect.x && mousePos.x < codeAreaRect.width+codeAreaRect.x;
+        let rectMatchY = mousePos.y > codeAreaRect.y && mousePos.y < codeAreaRect.height+codeAreaRect.y;
+        if (!(rectMatchX && rectMatchY)) return;
 
-        targetLine = Math.round((itemTop - rect.top)/20);
-        console.log(targetLine);
-        if (targetLine < 1) {
-            return;
-        }
+        targetLine = Math.round((itemTop - codeAreaRect.top - inputArea.scrollTop)/20);
+        if (targetLine < 1) return;
+        if (targetLine > codeArea.children.length + 1) return;
 
         const targetLineEl = codeArea.children[targetLine - 1];
         if (insertType === 'LINE') {
@@ -208,5 +210,18 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         item.style.transform = null;
         document.onmousemove = null;
         document.onmouseup = null;
+
+        let codeSplitted = inputArea.value.split('\n');
+        if(overCodeArea){
+            if(codeSplitted == '') inputArea.value = item.innerText;
+            else{
+                codeSplitted.splice(targetLine+1, 0, item.innerText);
+                inputArea.value = codeSplitted.join('\n');
+            }
+        } 
+        highlight(inputArea.value);
+
+        inputArea.onmouseover = null;
+        inputArea.onmouseout = null;
     }
 }
