@@ -315,7 +315,7 @@
     codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
 
     //code palette
-    function addPaletteItem(content, category){
+    function addPaletteItem(content, category, type){
         let item = document.createElement('div');
         item.classList.add('palette-item');
         item.innerHTML = `<span class=${category}>${content}</span>`;
@@ -330,7 +330,8 @@
             itemCopy.style.left = `${e.pageX}px`;
             itemCopy.style.width = `${paletteContent.clientWidth-40}px`;
             itemCopy.style.zIndex = 999;
-            setItemPaletteDraggable(itemCopy, 5, 200, e);
+            const insertType = (type === 'reporter') ? 'SPAN' : 'LINE';
+            setItemPaletteDraggable(itemCopy, content, category, insertType, 5, 200, e);
             document.getElementById('app').onmouseup = () => {
                 itemCopy.style.animation = `paletteItemDestroy 0.25s ease`;
                 itemCopy.style.opacity = 0;
@@ -342,7 +343,7 @@
 
     paletteContent.innerHTML = '';
     commandsList.forEach(item => {
-        addPaletteItem(item.autocomplete, item.category);
+        addPaletteItem(item.autocomplete, item.category, item.type);
     });
 </script>
 </html>
