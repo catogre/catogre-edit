@@ -415,7 +415,9 @@
             document.getElementById('app').onmouseup = () => {
                 itemCopy.style.animation = `paletteItemDestroy 0.25s ease`;
                 itemCopy.style.opacity = 0;
-                setTimeout(() => document.getElementById('app').removeChild(itemCopy), 250);
+                setTimeout(() => {
+                    document.getElementById('app').removeChild(itemCopy);
+                }, 250);
                 document.getElementById('app').onmouseup = null;
             }
         }

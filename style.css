@@ -233,7 +233,7 @@ input:focus{
     color: #fff;
     font-size: 12px;
     font-family: 'Roboto Mono', monospace;
-    height: calc(100% - 40px);
+    height: calc(100% - 20px);
     white-space: pre-wrap;
     overflow: hidden;
     top: 0;
@@ -423,7 +423,7 @@ input:focus{
 }
 
 .code-palette{
-    width: 250px;
+    width: 350px;
     border-right: 1px solid #000;
     background: #151515;
     display: flex;
