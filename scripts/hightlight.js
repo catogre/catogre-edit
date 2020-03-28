@@ -19,6 +19,7 @@ const highlight = (str) => {
     let strings = /"(.*)"/g;
     codeArea.innerHTML = "";
 
+    let lineOrder = 0;
     lines.forEach(line => {
         line = line.replace(strings, "<span class=\"string\">$&</span>")
         line = line.replace(symbols, "<span class=\"symbol\">$&</span>")
@@ -33,7 +34,8 @@ const highlight = (str) => {
             }
         });
 
-        codeArea.innerHTML += `<div class="line">${line}</div>`;
+        codeArea.innerHTML += `<div class="line" style="order: ${lineOrder}">${line}</div>`;
+        lineOrder+=2;
     })
 }
 
