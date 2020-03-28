@@ -287,10 +287,11 @@ input:focus{
     background: rgba(255, 255, 255, 0.1);
 }
 
-.temp-line, .temp-span {
-    background: rgba(255, 255, 255, 0.25);
-    opacity: 0.8;
-    filter: brightness(2);
+.temp-line{
+    height: 20px;
+    width: 100%;
+    padding: 0 30px;
+    background: rgba(255, 255, 255, 1);
 }
 
 .code-lines{
