@@ -282,6 +282,7 @@ input:focus{
     min-width: 100%;
     padding: 0 30px;
     white-space: pre;
+    flex-shrink: 0;
 }
 #code .line.sel{
     background: rgba(255, 255, 255, 0.1);
@@ -292,6 +293,7 @@ input:focus{
     width: 100%;
     padding: 0 30px;
     background: rgba(255, 255, 255, 1);
+    flex-shrink: 0;
 }
 
 .code-lines{
@@ -496,7 +498,7 @@ misc
     color: rgb(255, 173, 118);
 }
 
-.symbol {
+.token {
     color: rgb(117, 117, 117);
 }
 

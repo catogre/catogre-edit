@@ -103,7 +103,7 @@ function setItemPaletteDraggable(item, easeFactor, rotFactor, eDown){
             x: e.pageX,
             y: e.pageY
         }
-        targetLine = Math.round((itemTop - 60 - inputArea.scrollTop)/20);
+        targetLine = Math.round((itemTop - 60 + inputArea.scrollTop)/20);
         tempLine.style.order = (targetLine * 2) + 1;
 
         let codeAreaRect = codeArea.getBoundingClientRect();
