@@ -196,7 +196,6 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             }
         } else if (insertType === 'SPAN') {
             if (targetLineEl) {
-                console.log(targetLineEl);
                 // TODO: calculate good insertion points, choose the closest one to cursor
                 targetColumn = 0;
                 insertAtColumn(targetColumn, targetLineEl, tempSpan);
