@@ -220,7 +220,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             if (codeSplitted == '') {
                 inputArea.value = content;
             } else if (insertType === 'LINE') {
-                codeSplitted.splice(targetLine+1, 0, content);
+                codeSplitted.splice(targetLine-1, 0, content);
             } else if (insertType === 'SPAN') {
                 const original = codeSplitted[targetLine - 1];
                 const beforeTarget = original.slice(0, targetColumn);
