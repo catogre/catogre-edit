@@ -357,7 +357,8 @@ input:focus{
     margin: 0;
     margin-right: 10px;
     font-size: 12px;
-    width: 40%;
+    min-width: 40%;
+    width: fit-content;
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
 }
@@ -365,7 +366,6 @@ input:focus{
     margin: 0;
     font-size: 10px;
     color: #aaa;
-    width: 60%;
     max-height: 100%;
     overflow: auto;
     display: none;
@@ -465,6 +465,10 @@ input:focus{
 }
 .palette-item:active{
     cursor: grabbing;
+}
+
+.palette-item.newgroup{
+    margin-top: 20px;
 }
 
 

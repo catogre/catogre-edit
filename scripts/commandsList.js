@@ -5,7 +5,8 @@ let commandsList = [
         type: 'function',
         category: 'motion',
         autocomplete: 'moveSteps(10);',
-        description: 'Moves the sprite by a certain amount of steps in the direction it\'s facing.'
+        description: 'Moves the sprite by a certain amount of steps in the direction it\'s facing.',
+        newgroup: true,
     },
     {
         command: 'turnCW',
@@ -27,7 +28,8 @@ let commandsList = [
         type: 'function',
         category: 'motion',
         autocomplete: 'goTo(0, 0);',
-        description: 'Places the sprite in a certain position on the stage (x from -240 to 240 and y from -180 to 180).'
+        description: 'Places the sprite in a certain position on the stage (x from -240 to 240 and y from -180 to 180).',
+        newgroup: true,
     },
     {
         command: 'goToObject',
@@ -56,7 +58,8 @@ let commandsList = [
         type: 'function',
         category: 'motion',
         autocomplete: 'setDirection(90);',
-        description: 'Sets the direction of the sprite to some number between -180 and 180. 90 is default.'
+        description: 'Sets the direction of the sprite to some number between -180 and 180. 90 is default.',
+        newgroup: true,
     },
     {
         command: 'pointTowards',
@@ -71,7 +74,8 @@ let commandsList = [
         type: 'function',
         category: 'motion',
         autocomplete: 'setX(0);',
-        description: 'Sets the X (horizontal) position of the sprite to a certain number.'
+        description: 'Sets the X (horizontal) position of the sprite to a certain number.',
+        newgroup: true,
     },
     {
         command: 'setY',
@@ -100,7 +104,8 @@ let commandsList = [
         type: 'function',
         category: 'motion',
         autocomplete: 'ifEdgeBounce();',
-        description: 'Checks if the sprite is touching the edge of the stage, and if it does, changes it direction.'
+        description: 'Checks if the sprite is touching the edge of the stage, and if it does, changes it direction.',
+        newgroup: true,
     },
     {
         command: 'setRotStyle',
@@ -109,12 +114,14 @@ let commandsList = [
         autocomplete: 'setRotStyle("left-right");',
         description: 'Sets the rotation style of the sprite to either "left-right", "all around" or "don\'t rotate".'
     },
+
     {
         command: 'x',
         type: 'reporter',
         category: 'motion',
         autocomplete: 'sprite.x',
-        description: 'Returns the X (horizontal) position of the sprite.'
+        description: 'Returns the X (horizontal) position of the sprite.',
+        newgroup: true,
     },
     {
         command: 'y',
@@ -137,7 +144,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'say("");',
-        description: 'Adds a speech bubble near the sprites where certain text can be displayed. To remove the bubble, simply type "" as an argument.'
+        description: 'Adds a speech bubble near the sprites where certain text can be displayed. To remove the bubble, simply type "" as an argument.', 
+        newgroup: true,
     },
     {
         command: 'sayFor',
@@ -167,7 +175,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'setCostume("costumeName");',
-        description: 'Switches the sprite\'s costume to a certain one.'
+        description: 'Switches the sprite\'s costume to a certain one.', 
+        newgroup: true,
     },
     {
         command: 'setBackdrop',
@@ -196,7 +205,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'setSize(100);',
-        description: 'Sets the sprite scale to a certain percentage from it\'s original size. 100 is the default.'
+        description: 'Sets the sprite scale to a certain percentage from it\'s original size. 100 is the default.', 
+        newgroup: true,
     },
     {
         command: 'changeSize',
@@ -211,7 +221,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'setEffect("color", 0);',
-        description: 'Sets one of sprite\'s visual effects to some amount. The effects are: "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness", "ghost".'
+        description: 'Sets one of sprite\'s visual effects to some amount. The effects are: "color", "fisheye", "whirl", "pixelate", "mosaic", "brightness", "ghost".', 
+        newgroup: true,
     },
     {
         command: 'changeEffect',
@@ -233,7 +244,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'hide();',
-        description: 'Makes the sprite invisible and undetectable by collision sensors.'
+        description: 'Makes the sprite invisible and undetectable by collision sensors.', 
+        newgroup: true,
     },
     {
         command: 'hide',
@@ -248,7 +260,8 @@ let commandsList = [
         type: 'function',
         category: 'looks',
         autocomplete: 'goToFront();',
-        description: 'Moves the sprite on top of all other sprites.'
+        description: 'Moves the sprite on top of all other sprites.', 
+        newgroup: true,
     },
     {
         command: 'goToBack',
@@ -277,7 +290,8 @@ let commandsList = [
         type: 'reporter',
         category: 'looks',
         autocomplete: 'sprite.costumeNum',
-        description: 'Returns the index of the current costume.'
+        description: 'Returns the index of the current costume.', 
+        newgroup: true,
     },
     {
         command: 'costumeName',
@@ -303,11 +317,72 @@ let commandsList = [
 
     //sound
     {
-        command: 'playSound',
+        command: 'startSound',
         type: 'function',
         category: 'sound',
-        autocomplete: 'playSound("soundName");',
-        description: 'Plays a certain sound. To add a new sound, go to the "sounds" tab.'
+        autocomplete: 'startSound("soundName");',
+        description: 'Plays a certain sound, without pausing the script. To add a new sound, go to the "sounds" tab.', 
+        newgroup: true,
+    },
+    {
+        command: 'playSoundAndWait',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'playSoundAndWait("soundName");',
+        description: 'Plays a certain sound and once it\'s finished, resumes the script.', 
+    },
+    {
+        command: 'stopAllSounds',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'stopAllSounds();',
+        description: 'Stops all the sounds currently playing.', 
+    },
+
+    {
+        command: 'setSoundEffect',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'setSoundEffect("pitch", 0);',
+        description: 'Sets one of sprite\'s sound effects to some amount. The effects are: "pitch", "pan"', 
+        newgroup: true,
+    },
+    {
+        command: 'changeSoundEffect',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'changeSoundEffect("pitch", 10);',
+        description: 'Changes one of sprite\'s sound effects by some amount.', 
+    },
+    {
+        command: 'clearSoundEffects',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'clearSoundEffects();',
+        description: 'Clears all the sound effects for this sprite.', 
+    },
+
+    {
+        command: 'setVolume',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'setVolume(100);',
+        description: 'Sets the volume of the sprite to a certain value. The higher the volume is, the louder the sounds of this sprite will be playing.', 
+        newgroup: true,
+    },
+    {
+        command: 'changeVolume',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'changeVolume(10);',
+        description: 'Changes the volume of the sprite by a certain value. The higher the volume is, the louder the sounds of this sprite will be playing.', 
+    },
+    {
+        command: 'volume',
+        type: 'reporter',
+        category: 'sound',
+        autocomplete: 'sprite.volume',
+        description: 'Returns the volume of the sprite.', 
     },
 
     //events
@@ -316,7 +391,8 @@ let commandsList = [
         type: 'event',
         category: 'events',
         autocomplete: 'whenFlagClicked:',
-        description: 'Triggers every time the user clicks on green flag.'
+        description: 'Triggers every time the user clicks on green flag.', 
+        newgroup: true,
     },
     {
         command: 'whenKeyPressed',
@@ -333,34 +409,69 @@ let commandsList = [
         description: 'Triggers when the user clicks on this sprite.'
     },
     {
+        command: 'whenBgSwitchesTo',
+        type: 'event',
+        category: 'events',
+        autocomplete: 'whenBgSwitchesTo "backdrop name":',
+        description: 'Triggers every time the backgdrop switches to a certain one.'
+    },
+
+    {
+        command: 'whenLoundnessGreaterThan',
+        type: 'event',
+        category: 'events',
+        autocomplete: 'whenLoundnessGreaterThan 10:',
+        description: 'Triggers every time the loudness of the audio from the microphone passes over a certain threshold number.',
+        newgroup: true
+    },
+    {
+        command: 'whenTimerGreaterThan',
+        type: 'event',
+        category: 'events',
+        autocomplete: 'whenTimerGreaterThan 10:',
+        description: 'Triggers every time the project\'s timer becomes greater than a certain number.',
+    },
+
+    {
         command: 'whenMessage',
         type: 'event',
         category: 'events',
         autocomplete: 'whenMessage "message1":',
-        description: 'Triggers when this sprite recieves a specific message. To send a message, use "broadcast()" block'
+        description: 'Triggers when this sprite recieves a specific message. To send a message, use "broadcast()" command',
+        newgroup: true
+    },
+    {
+        command: 'broadcast',
+        type: 'function',
+        category: 'events',
+        autocomplete: 'broadcast("message1")',
+        description: 'Sends a specific message to all the sprites. To recieve a message, use "whenMessage" event',
+    },
+    {
+        command: 'broadcastAndWait',
+        type: 'function',
+        category: 'events',
+        autocomplete: 'broadcastAndWait("message1")',
+        description: 'Sends a specific message and waits until one of the sprites recieves it. To recieve a message, use "whenMessage" event',
     },
 
     //control
-    {
-        command: 'whenCloneStarts',
-        type: 'event',
-        category: 'control',
-        autocomplete: 'whenCloneStarts:',
-        description: 'Scripts with this event will be executed by clones of this sprite. Clones are copies of the sprite with own properties and local variables/lists.'
-    },
     {
         command: 'wait',
         type: 'function',
         category: 'control',
         autocomplete: 'wait(1);',
-        description: 'Waits a certain amount of seconds before executing the code after.'
+        description: 'Waits a certain amount of seconds before executing the code after.',
+        newgroup: true,
     },
+
     {
-        command: 'createClone',
-        type: 'function',
+        command: 'repeat',
+        type: 'container',
         category: 'control',
-        autocomplete: 'createClone(sprite);',
-        description: 'Creates a clone of this or any other sprite. Clones are copies of the sprite with own properties and local variables/lists.'
+        autocomplete: 'repeat(10){\n\n}',
+        description: 'Repeats the code inside it a certain amount of times.',
+        newgroup: true,
     },
     {
         command: 'forever',
@@ -369,12 +480,14 @@ let commandsList = [
         autocomplete: 'forever(){\n\n}',
         description: 'Repeats the code inside it forever.'
     },
+
     {
         command: 'if',
         type: 'container',
         category: 'control',
         autocomplete: 'if(){\n\n}',
-        description: 'Checks if the statement if true and if it is, executes the code inside it.'
+        description: 'Checks if the statement if true and if it is, executes the code inside it.',
+        newgroup: true,
     },
     {
         command: 'else',
@@ -383,14 +496,107 @@ let commandsList = [
         autocomplete: 'else{\n\n}',
         description: '-'
     },
+    {
+        command: 'waitUntil',
+        type: 'function',
+        category: 'control',
+        autocomplete: 'waitUntil();',
+        description: 'Waits until a certain condition becomes true before executing the code after.',
+    },
+    {
+        command: 'repeatUntil',
+        type: 'container',
+        category: 'control',
+        autocomplete: 'repeatUntil(){\n\n}',
+        description: 'Repeats the code inside it until a certain condition becomes true.',
+    },
+
+    {
+        command: 'stop',
+        type: 'function',
+        category: 'control',
+        autocomplete: 'stop("all");',
+        description: 'Either stops all the scripts, this script or the other scripts in this sprite. The argument should be one of those: "all", "this" or "others"',
+        newgroup: true,
+    },
+
+    {
+        command: 'whenCloneStarts',
+        type: 'event',
+        category: 'control',
+        autocomplete: 'whenCloneStarts:',
+        description: 'Scripts with this event will be executed by clones of this sprite. Clones are copies of the sprite with own properties and local variables/lists.',
+        newgroup: true,
+    },
+    {
+        command: 'createClone',
+        type: 'function',
+        category: 'control',
+        autocomplete: 'createClone("this");',
+        description: 'Creates a clone of this or any other sprite. The argument should be either "this", or the name of other sprite.'
+    },
+    {
+        command: 'deleteClone',
+        type: 'function',
+        category: 'control',
+        autocomplete: 'createClone(sprite);',
+        description: 'Deletes the clone from which this code was executed. Clones are copies of the sprite with own properties and local variables/lists.'
+    },
 
     //sensing
+    {
+        command: 'touchingObject',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'touchingObject("mouse")',
+        description: 'Checks if this sprite is touching another sprite, an edge of the scene, or the mouse pointer. If so, returns true, otherwise false.',
+        newgroup: true,
+    },
+    {
+        command: 'touchingColor',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'touchingColor("#FF0000")',
+        description: 'Checks if this sprite is touching a certain color, written in HEX code. If so, returns true, otherwise false.'
+    },
+    {
+        command: 'colorTouchingColor',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'colorTouchingColor("#FFF", "#F00")',
+        description: 'Checks if the parts of the sprite with a certain color are touching another color, both written in HEX code. If so, returns true, otherwise false.'
+    },
+    {
+        command: 'distanceTo',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'distanceTo("mouse")',
+        description: 'Returns the distance from this sprite to another one, or to mouse pointer, in pixels.'
+    },
+
+    {
+        command: 'ask',
+        type: 'function',
+        category: 'sensing',
+        autocomplete: 'ask("Who let the dogs out?");',
+        description: 'Opens a text prompt, where user can enter the answer. Then, stores the answer in the "answer" property and resumes the code.',
+        newgroup: true,
+    },
+    {
+        command: 'answer',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'answer',
+        description: 'Returns the answer, entered by the user in the message prompt. To open it, use "ask()" command.',
+    },
+
     {
         command: 'keyPressed',
         type: 'reporter',
         category: 'sensing',
         autocomplete: 'keyPressed("space")',
-        description: 'Checks if a certain key is pressed. If so, returns true, otherwise false.'
+        description: 'Checks if a certain key is pressed. If so, returns true, otherwise false.',
+        newgroup: true,
     },
     {
         command: 'mouseDown',
@@ -398,6 +604,29 @@ let commandsList = [
         category: 'sensing',
         autocomplete: 'mouseDown()',
         description: 'Checks if the mouse button is down. If so, returns true, otherwise false.'
+    },
+    {
+        command: 'mouseX',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'mouseX',
+        description: 'Returns the X (horizontal) position of the mouse pointer, relative to the stage.'
+    },
+    {
+        command: 'mouseY',
+        type: 'reporter',
+        category: 'sensing',
+        autocomplete: 'mouseY',
+        description: 'Returns the Y (vertical) position of the mouse pointer, relative to the stage.'
+    },
+
+    {
+        command: 'setDragMode',
+        type: 'function',
+        category: 'sensing',
+        autocomplete: 'setDragMode(true);',
+        description: 'Sets the drag mode of the sprite to either draggable (true) or not draggable (false).',
+        newgroup: true,
     },
 ]
 

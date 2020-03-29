@@ -326,10 +326,11 @@
     codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
 
     //code palette
-    function addPaletteItem(content, category){
+    function addPaletteItem(content, category, newgroup){
         let item = document.createElement('div');
         item.classList.add('palette-item');
         item.innerHTML = `<span class=${category}>${content}</span>`;
+        if(newgroup) item.classList.add('newgroup');
         paletteContent.appendChild(item);
         item.onmousedown = (e) => {
             let itemCopy = document.createElement('div');
@@ -362,7 +363,7 @@
             paletteContent.appendChild(categorySplitter);
             prevCategory = item.category;
         }
-        addPaletteItem(item.autocomplete, item.category);
+        addPaletteItem(item.autocomplete, item.category, item.newgroup);
     });
 
     function addPaletteCategory(category, name, color, index){
