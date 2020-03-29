@@ -26,8 +26,6 @@ const highlight = (str) => {
         line = line.replace(numbers, "<span class=\"number\">$&</span>");
         line = line.replace(classes, "<span class=\"class\">$&</span>");
 
-        console.log(line.replace(symbols, "<span class=\"symbol\">$&</span>"), line);
-
         commandsList.forEach(com => {
             let filter = line.includes(com.command);
             if(filter){

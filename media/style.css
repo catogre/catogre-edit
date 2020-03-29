@@ -444,9 +444,12 @@ input:focus{
 
 #paletteContent{
     width: 100%;
+    height: auto;
     overflow: auto;
     padding: 10px;
+    padding-bottom: 100%;
 }
+
 .palette-item{
     padding: 10px;
     background: #333;
@@ -457,9 +460,56 @@ input:focus{
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
     user-select: none;
     cursor: grab;
+    width: fit-content;
+    white-space: pre;
 }
 .palette-item:active{
     cursor: grabbing;
+}
+
+
+#paletteCategories{
+    width: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.category-item{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+}
+.category-item:hover{
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.category-item div{
+    background: #fff;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+}
+.category-item span{
+    font-size: 12px;
+    color: #fff;
+    padding-top: 2px;
+}
+
+.category-splitter{
+    font-size: 16px;
+    font-weight: 600;
+    color: #aaa;
+    margin: 10px 0;
+    margin-top: 20px;
+}
+.category-splitter:first-of-type{
+    margin-top: 0;
 }
 
 /* 
@@ -468,24 +518,28 @@ syntax
 block types
 */
 
-.events {
-    color: rgb(253, 239, 112)
-}
-
 .motion {
-    color: rgb(77, 121, 240)
+    color: #4c97ff;
 }
 
 .looks {
-    color: rgb(171, 102, 236);
+    color: #9966ff;
+}
+
+.sound {
+    color: #d65cd6;
+}
+
+.events {
+    color: #ffde39
 }
 
 .control {
-    color: rgb(255, 191, 95);
+    color: #fdbb47;
 }
 
 .sensing {
-    color: rgb(113, 206, 243);
+    color: #4cbfe6;
 }
 
 /* 
@@ -495,7 +549,7 @@ misc
 */
 
 .number {
-    color: rgb(255, 173, 118);
+    color: #ffdf76;
 }
 
 .token {
@@ -503,19 +557,19 @@ misc
 }
 
 .string {
-    color: rgb(165, 255, 124);
+    color: #7ccbff;
 }
 
 .string .number {
-    color: rgb(255, 124, 124);
+    color: #7ccbff;
 }
 
 .class {
-    color: rgb(96, 240, 103);
+    color: #1bc47d;
 }
 
 .string .class {
-    color: rgb(255, 124, 124);
+    color: #7ccbff;
 }
 
 

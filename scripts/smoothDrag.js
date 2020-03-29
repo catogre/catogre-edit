@@ -62,11 +62,11 @@ function setItemPaletteDraggable(item, easeFactor, rotFactor, eDown){
         y: eDown.pageY
     }
 
-    let diffX = mousePos.x - 10;
-    let diffY = mousePos.y - item.offsetTop + 10;
+    let diffX = mousePos.x - item.getBoundingClientRect().x/2;
+    let diffY = mousePos.y - item.getBoundingClientRect().y + 10;
 
-    let itemTop = item.offsetTop;
-    let itemLeft = 10;
+    let itemTop = item.getBoundingClientRect().y;
+    let itemLeft = item.getBoundingClientRect().x/2;
     let itemDirection = 0;
 
     let targetX;
@@ -108,7 +108,7 @@ function setItemPaletteDraggable(item, easeFactor, rotFactor, eDown){
 
         let codeAreaRect = codeArea.getBoundingClientRect();
         let rectMatchX = mousePos.x > codeAreaRect.x && mousePos.x < codeAreaRect.width+codeAreaRect.x;
-        let rectMatchY = mousePos.y > codeAreaRect.y && mousePos.y < codeAreaRect.height+codeAreaRect.y;
+        let rectMatchY = mousePos.y > codeAreaRect.y-10 && mousePos.y < codeAreaRect.height+codeAreaRect.y;
 
         if(rectMatchX && rectMatchY) overCodeArea = true;
         else overCodeArea = false;

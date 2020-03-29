@@ -74,6 +74,16 @@
         <div class="main-space">
             <div class="code-palette" id="palette">
                 <div id="paletteResize"></div>
+                <div id="paletteCategories">
+                    <div class="category-item">
+                        <div style="background: #4d79f0;"></div>
+                        <span>Motion</span>
+                    </div>
+                    <div class="category-item">
+                        <div style="background: #ab66ec;"></div>
+                        <span>Looks</span>
+                    </div>
+                </div>
                 <div id="paletteContent">
                     <div class="palette-item">
                         <span class="events">whenFlagClicked:</span>
@@ -110,6 +120,7 @@
 
 <script src="scripts/commandsList.js"></script>
 <script src="scripts/smoothDrag.js"></script>
+<script src="scripts/smoothScroll.js"></script>
 <script src="scripts/textareaTextPosition.js"></script>
 <script src="scripts/stageResize.js"></script>
 <script src="scripts/paletteResize.js"></script>
@@ -328,7 +339,6 @@
             document.getElementById('app').appendChild(itemCopy);
             itemCopy.style.top = `${e.pageY}px`;
             itemCopy.style.left = `${e.pageX}px`;
-            itemCopy.style.width = `${paletteContent.clientWidth-40}px`;
             itemCopy.style.zIndex = 999;
             setItemPaletteDraggable(itemCopy, 5, 200, e);
             document.getElementById('app').onmouseup = () => {
@@ -341,8 +351,38 @@
     }
 
     paletteContent.innerHTML = '';
+    let prevCategory = '';
     commandsList.forEach(item => {
+        if(prevCategory != item.category){
+            let categorySplitter = document.createElement('div');
+            categorySplitter.classList.add('category-splitter');
+            categorySplitter.setAttribute('category', item.category);
+            let targetCategory = categoriesList.find(e => e.category == item.category)
+            if(targetCategory) categorySplitter.innerText = targetCategory.name;
+            paletteContent.appendChild(categorySplitter);
+            prevCategory = item.category;
+        }
         addPaletteItem(item.autocomplete, item.category);
+    });
+
+    function addPaletteCategory(category, name, color, index){
+        let categ = document.createElement('div');
+        categ.classList.add('category-item');
+        categ.setAttribute('category', category);
+        categ.innerHTML = `<div style="background: ${color}"></div> <span>${name}</span>`;
+        paletteCategories.appendChild(categ);
+
+        categ.onclick = () => {
+            let targetTop = paletteContent.getElementsByClassName('category-splitter')[index].offsetTop - 10;
+            scrollToY(paletteContent, targetTop, 7);
+        }
+    }
+
+    paletteCategories.innerHTML = '';
+    let categoryIndex = 0;
+    categoriesList.forEach(item => {
+        addPaletteCategory(item.category, item.name, item.color, categoryIndex);
+        categoryIndex++;
     });
 </script>
 </html>

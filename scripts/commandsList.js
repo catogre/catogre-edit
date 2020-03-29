@@ -301,6 +301,15 @@ let commandsList = [
         description: 'Returns the name of the current backdrop.'
     },
 
+    //sound
+    {
+        command: 'playSound',
+        type: 'function',
+        category: 'sound',
+        autocomplete: 'playSound("soundName");',
+        description: 'Plays a certain sound. To add a new sound, go to the "sounds" tab.'
+    },
+
     //events
     {
         command: 'whenFlagClicked',
@@ -371,7 +380,7 @@ let commandsList = [
         command: 'else',
         type: 'container',
         category: 'control',
-        autocomplete: 'else(){\n\n}',
+        autocomplete: 'else{\n\n}',
         description: '-'
     },
 
@@ -389,5 +398,38 @@ let commandsList = [
         category: 'sensing',
         autocomplete: 'mouseDown()',
         description: 'Checks if the mouse button is down. If so, returns true, otherwise false.'
+    },
+]
+
+let categoriesList = [
+    {
+        category: 'motion',
+        name: 'Motion',
+        color: '#4c97ff'
+    },
+    {
+        category: 'looks',
+        name: 'Looks',
+        color: '#9966ff'
+    },
+    {
+        category: 'sound',
+        name: 'Sound',
+        color: '#d65cd6',
+    },
+    {
+        category: 'events',
+        name: 'Events',
+        color: '#ffde39',
+    },
+    {
+        category: 'control',
+        name: 'Control',
+        color: '#fdbb47',
+    },
+    {
+        category: 'sensing',
+        name: 'Sensing',
+        color: '#4cbfe6',
     },
 ]
