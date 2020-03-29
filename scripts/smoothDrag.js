@@ -159,9 +159,6 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         }
     }
 
-    inputArea.onmouseover = () => overCodeArea = true;
-    inputArea.onmouseout = () => overCodeArea = false;
-
     document.onmousemove = function(e){
         if (insertType === 'LINE') {
             tempLine.remove();
@@ -183,7 +180,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         }
         overCodeArea = true;
 
-        targetLine = Math.round((itemTop - codeAreaRect.top + inputArea.scrollTop)/20);
+        targetLine = Math.round((mousePos.y - codeAreaRect.top + inputArea.scrollTop)/20);
         if (targetLine < 1) return;
         if (targetLine > codeArea.children.length + 1) return;
 
@@ -230,8 +227,5 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             inputArea.value = codeSplitted.join('\n');
         }
         highlight(inputArea.value);
-
-        inputArea.onmouseover = null;
-        inputArea.onmouseout = null;
     }
 }
