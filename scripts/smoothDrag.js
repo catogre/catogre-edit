@@ -176,7 +176,11 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         let codeAreaRect = codeArea.getBoundingClientRect();
         let rectMatchX = mousePos.x > codeAreaRect.x && mousePos.x < codeAreaRect.width+codeAreaRect.x;
         let rectMatchY = mousePos.y > codeAreaRect.y-10 && mousePos.y < codeAreaRect.height+codeAreaRect.y;
-        if (!(rectMatchX && rectMatchY)) return;
+        if (!(rectMatchX && rectMatchY)) {
+            overCodeArea = false;
+            return;
+        }
+        overCodeArea = true;
 
         targetLine = Math.round((itemTop - codeAreaRect.top + inputArea.scrollTop)/20);
         if (targetLine < 1) return;
