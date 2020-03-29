@@ -2,14 +2,8 @@
 
 const codeArea = document.querySelector("#code");
 const inputArea = document.querySelector("#input");
-const autocompleteList = document.querySelector("#autocompleteList");
 
 let currentLine = 0;
-
-let autocompleteVisible = false;
-let autocompleteWord = '';
-let autocompleteSelection = 0;
-let autocompleteFilter;
 
 const highlight = (str) => {
     let lines = str.split("\n");

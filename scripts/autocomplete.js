@@ -1,4 +1,11 @@
 //autocomplete
+const autocompleteList = document.querySelector("#autocompleteList");
+
+let autocompleteVisible = false;
+let autocompleteWord = '';
+let autocompleteSelection = 0;
+let autocompleteFilter;
+
 function addAutocompleteItem(heading, category, descr){
     autocompleteList.innerHTML += `<div class="autocomplete-item">
         <h4 class="${category}">${heading}</h4>

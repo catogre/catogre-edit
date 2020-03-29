@@ -145,7 +145,7 @@
             }
             if(e.data == ' ') autocompleteWord = '';
             if(autocompleteWord != ''){
-                autocompleteFilter = commandsList.filter(f => f.command.startsWith(autocompleteWord));
+                autocompleteFilter = commandsList.filter(f => f.command.toLowerCase().startsWith(autocompleteWord.toLowerCase()));
                 autocompleteList.innerHTML = "";
                 if(autocompleteFilter != ""){
                     autocompleteFilter.forEach(command => {
