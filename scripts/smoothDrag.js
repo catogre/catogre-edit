@@ -72,6 +72,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
     let targetY;
 
     let targetLine;
+    let targetColumn;
     let tempLine;
     let tempSpan;
 
@@ -197,8 +198,8 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             if (targetLineEl) {
                 console.log(targetLineEl);
                 // TODO: calculate good insertion points, choose the closest one to cursor
-                const insertColumn = 0;
-                insertAtColumn(insertColumn, targetLineEl, tempSpan);
+                targetColumn = 0;
+                insertAtColumn(targetColumn, targetLineEl, tempSpan);
             }
         }
     }
@@ -215,14 +216,20 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         document.onmousemove = null;
         document.onmouseup = null;
 
-        let codeSplitted = inputArea.value.split('\n');
-        if(overCodeArea){
-            if(codeSplitted == '') inputArea.value = item.innerText;
-            else{
-                codeSplitted.splice(targetLine+1, 0, item.innerText);
-                inputArea.value = codeSplitted.join('\n');
+        if (overCodeArea) {
+            let codeSplitted = inputArea.value.split('\n');
+            if (codeSplitted == '') {
+                inputArea.value = content;
+            } else if (insertType === 'LINE') {
+                codeSplitted.splice(targetLine+1, 0, content);
+            } else if (insertType === 'SPAN') {
+                const original = codeSplitted[targetLine - 1];
+                const beforeTarget = original.slice(0, targetColumn);
+                const afterTarget = original.slice(targetColumn);
+                codeSplitted[targetLine - 1] = beforeTarget + content + afterTarget;
             }
-        } 
+            inputArea.value = codeSplitted.join('\n');
+        }
         highlight(inputArea.value);
 
         inputArea.onmouseover = null;
