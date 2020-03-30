@@ -83,7 +83,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
     } else if (insertType === 'SPAN') {
         tempSpan = document.createElement('span');
         tempSpan.classList.add('temp-span', category);
-        tempSpan.appendChild(document.createTextNode(content));
+        tempSpan.innerText = content;
     }
 
     let overCodeArea = false;
@@ -223,6 +223,12 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
                 const beforeTarget = original.slice(0, targetColumn);
                 const afterTarget = original.slice(targetColumn);
                 codeSplitted[targetLine - 1] = beforeTarget + content + afterTarget;
+            }
+            inputArea.value = codeSplitted.join('\n');
+            let autoIndentLine = analyseIndent();
+
+            for(i = 0; i < autoIndentLine[targetLine - 1]; i++){
+                codeSplitted[targetLine - 1] = '    ' + codeSplitted[targetLine - 1];
             }
             inputArea.value = codeSplitted.join('\n');
         }

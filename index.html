@@ -190,8 +190,7 @@
                 highlight(inputArea.value);
             }
 
-            analyseIndent();
-            console.log(analyseIndent())
+            indents = analyseIndent();
         });
 
         //prevents browser's response to tab key when you're editing the input
@@ -218,6 +217,49 @@
                     autocompleteWord = '';
                     autocompleteSelection = 0;
                     hideAutocomplete();
+                }
+                if(e.keyCode == 13){
+                    let newEnterLine = getCurrentLine() + 1;
+                    let isCurlyBrackets = false;
+
+                    //auto indent curly brackets when pressing enter
+                    let charBeforeSel = inputArea.value[inputArea.selectionStart-1];
+                    let charAfterSel = inputArea.value[inputArea.selectionStart];
+                    if(inputArea.selectionStart == inputArea.selectionEnd && (charBeforeSel == '{' && charAfterSel == '}')){
+                        isCurlyBrackets = true;
+                    }
+
+                    //auto indent
+                    setTimeout(() => {
+                        let selStart = inputArea.selectionStart;
+                        indents = analyseIndent();
+                        let inputSplited = inputArea.value.split('\n');
+                        if(isCurlyBrackets){
+                            inputSplited.splice(newEnterLine, 0, "");
+                            inputArea.value = inputSplited.join('\n');
+                            indents = analyseIndent();
+                            for(let i = 0; i < indents[newEnterLine]; i++){
+                                inputSplited[newEnterLine] += '    ';
+                            }
+                            indents = analyseIndent();
+                            for(i = 0; i < indents[newEnterLine+1]; i++){
+                                inputSplited[newEnterLine+1] = '    ' + inputSplited[newEnterLine+1];
+                            }
+                        }else{
+                            targetLine = '';
+                            for(let i = 0; i < indents[newEnterLine]; i++){
+                                inputSplited[newEnterLine] += '    ';
+                            }
+                            
+                        }
+
+                        inputArea.value = inputSplited.join('\n');
+                        inputArea.selectionStart = selStart + (4*indents[newEnterLine]);
+                        inputArea.selectionEnd = inputArea.selectionStart;
+
+                        highlight(inputArea.value);
+                        updateCurrentLine();
+                    }, 10);
                 }
             }
         }

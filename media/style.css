@@ -327,6 +327,7 @@ input:focus{
     display: none;
     border: 1px solid #000;
     box-shadow: 0 2px 5px rgba(0,0,0,.5);
+    max-height: 400px;
 }
 .code-autocomplete.active{
     display: block;
