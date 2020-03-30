@@ -10,7 +10,7 @@ const highlight = (str) => {
     let classes = /(sprite|input)/g;
     let numbers = /(-)?\d+/g;
     let symbols = /(\(|\)|;|{|})/g;
-    let strings = /"(.*)"/g;
+    let strings = /".*"/g;
     codeArea.innerHTML = "";
 
     let lineOrder = 0;
@@ -33,3 +33,4 @@ const highlight = (str) => {
     })
 }
 
+highlight(inputArea.value);

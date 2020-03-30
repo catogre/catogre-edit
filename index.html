@@ -128,6 +128,7 @@
 
 <script src="scripts/hightlight.js"></script>
 <script src="scripts/autocomplete.js"></script>
+<script src="scripts/indent.js"></script>
 
 <script>
 
@@ -188,6 +189,9 @@
                 inputArea.setSelectionRange(selStart, selEnd);
                 highlight(inputArea.value);
             }
+
+            analyseIndent();
+            console.log(analyseIndent())
         });
 
         //prevents browser's response to tab key when you're editing the input
@@ -234,8 +238,13 @@
         inputArea.addEventListener("click", () => {
             setTimeout(() => updateCurrentLine(), 10);
         });
+
+        let shiftPressed = false;
+
         inputArea.addEventListener("keydown", (e) => {
             setTimeout(() => updateCurrentLine(), 10);
+
+            if(e.keyCode == 16) shiftPressed = true;
             
             if(e.keyCode == 9 || e.keyCode == 13){
                 let selStart = inputArea.selectionStart;
@@ -249,8 +258,34 @@
                     autocompleteSelection = 0;
                 }else{
                     if(e.keyCode == 13) return;
-                    inputArea.value = `${inputArea.value.slice(0, selStart)}    ${inputArea.value.slice(selEnd)}`;
-                    inputArea.setSelectionRange(selStart + 4, selEnd  + 4);
+                    if(getCurrentSelectionLines() == null){
+                        inputArea.value = `${inputArea.value.slice(0, selStart)}    ${inputArea.value.slice(selEnd)}`;
+                        inputArea.setSelectionRange(selStart + 4, selEnd  + 4);    
+                    }else{
+                        if(!shiftPressed){
+                            let inputSplited = inputArea.value.split('\n');
+                            let selLines = getCurrentSelectionLines();
+                            let i;
+                            for(i = 0; i <= selLines.end - selLines.start; i++){
+                                inputSplited[i+ selLines.start] = `    ${inputSplited[i+ selLines.start]}`;
+                            }
+                            console.log(i, getCurrentSelectionLines())
+                            inputArea.value = inputSplited.join('\n');
+                            inputArea.selectionStart = selStart+4;
+                            inputArea.selectionEnd = selEnd+(4*i);
+                        }else{
+                            let inputSplited = inputArea.value.split('\n');
+                            let selLines = getCurrentSelectionLines();
+                            let i;
+                            for(i = 0; i <= selLines.end - selLines.start; i++){
+                                let a = i + selLines.start;
+                                if(inputSplited[a].slice(0, 4) == '    ') inputSplited[a] = inputSplited[a].slice(4);
+                            }
+                            inputArea.value = inputSplited.join('\n');
+                            inputArea.selectionStart = selStart-4;
+                            inputArea.selectionEnd = selEnd-(4*i);
+                        }       
+                    }
                 } 
                 highlight(inputArea.value);
             }
@@ -271,6 +306,10 @@
                     setAutocompleteSelection(autocompleteSelection);
                 }
             }
+        });
+
+        inputArea.addEventListener("keyup", (e) => {
+            if(e.keyCode == 16) shiftPressed = false;
         });
 
         //properly react to scrolling
@@ -312,6 +351,30 @@
             char = currentLine;
             return char;
         }
+    }
+
+    function getCurrentSelectionLines(){
+        if(inputArea.selectionStart == inputArea.selectionEnd) return;
+        let inputSplited = inputArea.value.split('\n');
+        let char = 0;
+        let char2 = 1;
+        let lineStart = null;
+        let lineEnd = null;
+        for(let i = 0; i < inputSplited.length; i++){
+            for(let h = 0; h < inputSplited[i].length; h++){
+                if(inputArea.selectionStart == char || inputArea.selectionStart == char2){
+                    lineStart = i;
+                }
+                if(inputArea.selectionEnd == char || inputArea.selectionEnd == char2){
+                    lineEnd = i;
+                }
+                char++;
+                char2++;
+            }
+            char++;
+            char2++;
+        }
+        return {start: lineStart, end : lineEnd};
     }
 
     //highlight the line the user is currently on

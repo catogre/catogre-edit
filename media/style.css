@@ -460,7 +460,7 @@ input:focus{
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
     user-select: none;
     cursor: grab;
-    width: fit-content;
+    width: min-content;
     white-space: pre;
 }
 .palette-item:active{

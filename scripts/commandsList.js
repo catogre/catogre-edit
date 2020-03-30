@@ -248,7 +248,7 @@ let commandsList = [
         newgroup: true,
     },
     {
-        command: 'hide',
+        command: 'show',
         type: 'function',
         category: 'looks',
         autocomplete: 'show();',
@@ -539,7 +539,7 @@ let commandsList = [
         command: 'deleteClone',
         type: 'function',
         category: 'control',
-        autocomplete: 'createClone(sprite);',
+        autocomplete: 'deleteClone();',
         description: 'Deletes the clone from which this code was executed. Clones are copies of the sprite with own properties and local variables/lists.'
     },
 
