@@ -472,8 +472,8 @@ input:focus{
 
 
 #paletteCategories{
-    width: 60px;
-    overflow: hidden;
+    min-width: 60px;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -543,6 +543,25 @@ block types
 
 .sensing {
     color: #4cbfe6;
+}
+
+.operators{
+    color: #40bf4a;
+}
+
+.variables{
+    color: #ff8c1a;
+}
+.lists{
+    color: #ff661a;
+}
+
+.logic{
+    color: #b3d83a;
+}
+
+.types{
+    color: #f7b26c;
 }
 
 /* 

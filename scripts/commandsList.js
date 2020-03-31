@@ -628,6 +628,186 @@ let commandsList = [
         description: 'Sets the drag mode of the sprite to either draggable (true) or not draggable (false).',
         newgroup: true,
     },
+
+    //operators
+    {
+        command: 'pickRandom',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'pickRandom(1, 10)',
+        description: 'Returns a random integer (if both of the arguments are integers) or decimal (if at least one of them is decimal) in the range from one of the arguments to another.',
+        newgroup: true,
+    },
+
+    {
+        command: 'join',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'join("apple", "banana")',
+        description: 'Joins two given strings together and returns the result.',
+        newgroup: true,
+    },
+    {
+        command: 'letterOf',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'letterOf(1, "apple")',
+        description: 'Returns a certain symbol of a given string. The first argument is the index of the symbol and the second one is the string itself.',
+    },
+    {
+        command: 'length',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'length("apple")',
+        description: 'Returns the length (number of symbols) of a given string.',
+    },
+    {
+        command: 'contains',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'contains("apple", "a")',
+        description: 'Checks if the first given string contains the second given string. If so, returns true, otherwise false.',
+    },
+
+    {
+        command: 'round',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'round(1.5)',
+        description: 'Returns a rounded version of a given number.',
+        newgroup: true,
+    },
+    {
+        command: 'abs',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'abs(1)',
+        description: 'Math function. Absolute value of a number.',
+    },
+    {
+        command: 'floor',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'floor(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'ceiling',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'ceiling(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'sqrt',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'sqrt(1)',
+        description: 'Math function. Square root of a number.',
+    },
+    /*{
+        command: 'sin',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'sin(1)',
+        description: 'Math function.',
+    },  had to comment it, because the current regex highlighter messes up with the sen**sin**g category */ 
+    {
+        command: 'cos',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'cos(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'tan',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'tan(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'asin',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'sin(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'acos',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'cos(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'ln',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'ln(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'ePower',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'ePower(1)',
+        description: 'Math function. Euler\'s number to the power of some number.',
+    },
+    {
+        command: 'tenPower',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'tenPower(1)',
+        description: 'Math function. Ten to the power of some number.',
+    },
+
+    //variables
+    {
+        command: 'setVar',
+        type: 'function',
+        category: 'variables',
+        autocomplete: 'setVar("variable", 0)',
+        description: 'Sets the value of a certain variable to a some number or string.',
+        newgroup: true,
+    },
+    {
+        command: 'changeVar',
+        type: 'function',
+        category: 'variables',
+        autocomplete: 'changeVar("variable", 1)',
+        description: 'Changes the value of a certain variable by a some number.',
+    },
+    {
+        command: 'showVar',
+        type: 'function',
+        category: 'variables',
+        autocomplete: 'showVar("variable")',
+        description: 'Shows a certain variable\'s monior on the stage.',
+    },
+    {
+        command: 'hideVar',
+        type: 'function',
+        category: 'variables',
+        autocomplete: 'hideVar("variable")',
+        description: 'Hides a certain variable\'s monior on the stage.',
+    },
+
+    //lists
+    {
+        command: 'showList',
+        type: 'function',
+        category: 'lists',
+        autocomplete: 'showList("list")',
+        description: 'Shows a certain list\'s monior on the stage.',
+    },
+    {
+        command: 'hideList',
+        type: 'function',
+        category: 'lists',
+        autocomplete: 'hideList("list")',
+        description: 'Hides a certain list\'s monior on the stage.',
+    },
 ]
 
 let categoriesList = [
@@ -660,5 +840,125 @@ let categoriesList = [
         category: 'sensing',
         name: 'Sensing',
         color: '#4cbfe6',
+    },
+    {
+        category: 'operators',
+        name: 'Operators',
+        color: '#40bf4a',
+    },
+    {
+        category: 'logic',
+        name: 'Logic',
+        color: '#b3d83a',
+        special: 'logic'
+    },
+    {
+        category: 'types',
+        name: 'Types',
+        color: '#f7b26c',
+        special: 'types'
+    },
+    {
+        category: 'variables',
+        name: 'Variables',
+        color: '#ff8c1a',
+        customcategory: true,
+    },
+    {
+        category: 'lists',
+        name: 'Lists',
+        color: '#ff661a',
+        customcategory: true,
+    },
+]
+
+let classesList = [
+    {
+        class: "sprite",
+        description: "Get or edit the properties of this sprite."
+    },
+    {
+        class: "input",
+        description: "Get data from various inputs, such as keyboard or mouse."
+    },
+    {
+        class: "math",
+        description: "Contains some handy math functions."
+    },
+]
+
+let specialsList = [
+    //logic
+    {
+        content: '2 + 2',
+        category: 'logic',
+        newgroup: true,
+    },
+    {
+        content: '2 - 1',
+        category: 'logic',
+    },
+    {
+        content: '2 * 2',
+        category: 'logic',
+    },
+    {
+        content: '2 / 2',
+        category: 'logic',
+    },
+    {
+        content: '3 % 2',
+        category: 'logic',
+    },
+
+    {
+        content: '1 > 2',
+        category: 'logic',
+        newgroup: true,
+    },
+    {
+        content: '1 < 2',
+        category: 'logic',
+    },
+    {
+        content: '1 == 2',
+        category: 'logic',
+    },
+
+    {
+        content: '&&',
+        category: 'logic',
+        newgroup: true,
+    },
+    {
+        content: '||',
+        category: 'logic',
+    },
+    {
+        content: '!',
+        category: 'logic',
+    },
+
+    //types
+    {
+        content: '"String"',
+        category: 'types',
+        colorCategory: 'string',
+        newgroup: true,
+    },
+    {
+        content: '50',
+        category: 'types',
+        colorCategory: 'number',
+    },
+
+    {
+        content: 'true',
+        category: 'types',
+        newgroup: true,
+    },
+    {
+        content: 'false',
+        category: 'types',
     },
 ]

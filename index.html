@@ -74,21 +74,8 @@
         <div class="main-space">
             <div class="code-palette" id="palette">
                 <div id="paletteResize"></div>
-                <div id="paletteCategories">
-                    <div class="category-item">
-                        <div style="background: #4d79f0;"></div>
-                        <span>Motion</span>
-                    </div>
-                    <div class="category-item">
-                        <div style="background: #ab66ec;"></div>
-                        <span>Looks</span>
-                    </div>
-                </div>
-                <div id="paletteContent">
-                    <div class="palette-item">
-                        <span class="events">whenFlagClicked:</span>
-                    </div>
-                </div>
+                <div id="paletteCategories"></div>
+                <div id="paletteContent"></div>
             </div>
             <div class="workspace">
                 <div class="code-lines" id="linesCount"></div>
@@ -129,6 +116,9 @@
 <script src="scripts/hightlight.js"></script>
 <script src="scripts/autocomplete.js"></script>
 <script src="scripts/indent.js"></script>
+
+<script src="./catogre-compiler/moo.js"></script>
+<script src="./catogre-compiler/compiler.js"></script>
 
 <script>
 
@@ -311,7 +301,6 @@
                             for(i = 0; i <= selLines.end - selLines.start; i++){
                                 inputSplited[i+ selLines.start] = `    ${inputSplited[i+ selLines.start]}`;
                             }
-                            console.log(i, getCurrentSelectionLines())
                             inputArea.value = inputSplited.join('\n');
                             inputArea.selectionStart = selStart+4;
                             inputArea.selectionEnd = selEnd+(4*i);
@@ -431,16 +420,19 @@
     codeArea.addEventListener("DOMSubtreeModified", () => renderLines());
 
     //code palette
-    function addPaletteItem(content, category, type, newgroup){
+    function addPaletteItem(content, category, type, newgroup, colorCategory){
         let item = document.createElement('div');
         item.classList.add('palette-item');
-        item.innerHTML = `<span class=${category}>${content}</span>`;
+        if(colorCategory) item.innerHTML = `<span class=${colorCategory}>${content}</span>`;
+        else item.innerHTML = `<span class=${category}>${content}</span>`;
         if(newgroup) item.classList.add('newgroup');
         paletteContent.appendChild(item);
         item.onmousedown = (e) => {
             let itemCopy = document.createElement('div');
             itemCopy.classList.add('palette-item');
             itemCopy.innerHTML = `<span class=${category}>${content}</span>`;
+            if(colorCategory) itemCopy.innerHTML = `<span class=${colorCategory}>${content}</span>`;
+            else itemCopy.innerHTML = `<span class=${category}>${content}</span>`;
             itemCopy.style.position = 'fixed';
             document.getElementById('app').appendChild(itemCopy);
             itemCopy.style.top = `${e.pageY}px`;
@@ -459,7 +451,57 @@
 
     paletteContent.innerHTML = '';
     let prevCategory = '';
+    let customCategoryItems = [];
+    let customCategories = [];
+
     commandsList.forEach(item => {
+        let matchingCategoryItemIndex = commandsList.indexOf(item);
+        let matchingCategoryIndex = categoriesList.indexOf(categoriesList.find(f => f.category == commandsList[matchingCategoryItemIndex].category));
+        let matchingCategory = categoriesList[matchingCategoryIndex];
+
+        if(!matchingCategory.customcategory){
+            if(prevCategory != item.category){
+                let categorySplitter = document.createElement('div');
+                categorySplitter.classList.add('category-splitter');
+                categorySplitter.setAttribute('category', item.category);
+                let targetCategory = categoriesList.find(e => e.category == item.category)
+                if(targetCategory) categorySplitter.innerText = targetCategory.name;
+                paletteContent.appendChild(categorySplitter);
+                prevCategory = item.category;
+            }
+            addPaletteItem(item.autocomplete, item.category, item.type, item.newgroup);
+        }else{
+            customCategoryItems.push(item);
+            if(!customCategories.includes(matchingCategory)) customCategories.push(matchingCategory);
+        }
+    });
+    specialsList.forEach(item => {
+        if(prevCategory != item.category){
+            let categorySplitter = document.createElement('div');
+            categorySplitter.classList.add('category-splitter');
+            categorySplitter.setAttribute('category', item.category);
+            let targetCategory = categoriesList.find(e => e.category == item.category)
+            if(targetCategory) categorySplitter.innerText = targetCategory.name;
+            paletteContent.appendChild(categorySplitter);
+            prevCategory = item.category;
+        }
+        addPaletteItem(item.content, item.category, 'reporter', item.newgroup, item.colorCategory);
+    });
+
+    paletteCategories.innerHTML = '';
+    let categoryIndex = 0;
+    categoriesList.forEach(item => {
+        if(!customCategories.includes(item)){
+            addPaletteCategory(item.category, item.name, item.color, categoryIndex);
+            categoryIndex++;
+        }
+    });
+
+    customCategories.forEach(item => {
+        addPaletteCategory(item.category, item.name, item.color, categoryIndex);
+        categoryIndex++;
+    });
+    customCategoryItems.forEach(item => {
         if(prevCategory != item.category){
             let categorySplitter = document.createElement('div');
             categorySplitter.classList.add('category-splitter');
@@ -484,12 +526,5 @@
             scrollToY(paletteContent, targetTop, 7);
         }
     }
-
-    paletteCategories.innerHTML = '';
-    let categoryIndex = 0;
-    categoriesList.forEach(item => {
-        addPaletteCategory(item.category, item.name, item.color, categoryIndex);
-        categoryIndex++;
-    });
 </script>
 </html>
