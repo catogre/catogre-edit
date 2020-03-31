@@ -12,21 +12,44 @@ const highlight = (str) => {
     let strings = /".*"/g;
     codeArea.innerHTML = "";
 
+    let highlightClasses = {
+        "motion": "motion",
+        "looks": "looks",
+        "sounds": "sounds",
+        "events": "events",
+        "control": "control",
+        "sensing": "sensing",
+        "operators": "operators",
+        "logic": "logic",
+        "string": "string",
+        "number": "number",
+        "bool": "bool",
+        "variables": "variables",
+        "lists": "lists",
+        "class": "class",
+
+        lbracket:  'token',
+        rbracket:  'token',
+        lcurly:  'token',
+        rcurly:  'token',
+        comSeperator:  'token',
+        argSeperator:  'token',
+        hatSeperator:  'token',
+        classSeperator:  'token',
+    }
+
     let tokensList = tokenizeStr(inputArea.value);
     if(tokensList == "invalid syntax") return;
 
     lines.forEach(line => {
-        line = line.replace(strings, "<span class=\"string\">$&</span>");
-        line = line.replace(symbols, "<span class=\"token\">$&</span>");
-        line = line.replace(numbers, "<span class=\"number\">$&</span>");
-        console.log(tokensList);
-
         tokensList.forEach(com => {
-            if(com.type != 'invalid'){
+            if(Object.keys(highlightClasses).includes(com.type)){
                 let filter = line.includes(com.value);
                 if(filter){
-                    let r = new RegExp(com.value, 'g');
-                    line = line.replace(r, `<span class=\"${com.type}\">$&</span>`);
+                    let r;
+                    if(com.value == '(' || com.value == ')') r = new RegExp(`\\${com.value}`, 'g');
+                    else r = new RegExp(com.value, 'g');
+                    line = line.replace(r, `<span class=\"${highlightClasses[com.type]}\">$&</span>`);
                 }
             }
         });
