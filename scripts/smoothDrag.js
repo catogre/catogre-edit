@@ -73,6 +73,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
 
     let targetLine;
     let targetColumn;
+    let targetReplace;
     let tempLine;
     let tempSpan;
 
@@ -135,7 +136,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
                         if (child.nextSibling) {
                             parent.insertBefore(insertEl, child.nextSibling);
                         } else {
-                            parent.appendChlid(insertEl);
+                            parent.appendChild(insertEl);
                         }
                         return true;
                     } else {
@@ -157,6 +158,49 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             // Assume the latter and append the element to the end of the line.
             lineEl.appendChild(insertEl);
         }
+    }
+
+    function findReporterDropPositions(lineText) {
+        const positions = [];
+
+        // end of whitespace-only line
+        if (lineText.trim() === '') {
+            positions.push({column: lineText.length, replace: 0});
+        }
+
+        // literals
+        let inExpression = false;
+        let expressionPosition = null;
+        for (let i = 0; i < lineText.length; i++) {
+            if (inExpression) {
+                if (/[();\[\]]/.test(lineText[i])) {
+                    if (expressionPosition) {
+                        expressionPosition.replace = i - expressionPosition.column;
+                        positions.push(expressionPosition);
+                        expressionPosition = null;
+                    }
+                    inExpression = false;
+                }
+            } else {
+                if (lineText[i] !== ' ') {
+                    inExpression = true;
+                    if (/[0-9'"]/.test(lineText[i])) {
+                        expressionPosition = {column: i};
+                    }
+                }
+            }
+        }
+
+        // empty slots
+        for (let i = 0; i < lineText.length; i++) {
+            if (/[(\[]/.test(lineText[i])) {
+                if (lineText[i + 1] && /[)\]]/.test(lineText[i + 1])) {
+                    positions.push({column: i + 1, replace: 0});
+                }
+            }
+        }
+
+        return positions;
     }
 
     document.onmousemove = function(e){
@@ -184,6 +228,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         if (targetLine < 1) return;
         if (targetLine > codeArea.children.length + 1) return;
 
+        targetColumn = Math.round((mousePos.x - codeAreaRect.left - 30 - diffX + inputArea.scrollLeft)/7.2);
         const autoIndentLine = analyseIndent();
         const targetLineEl = codeArea.children[targetLine - 1];
         if (insertType === 'LINE') {
@@ -198,9 +243,16 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             }
         } else if (insertType === 'SPAN') {
             if (targetLineEl) {
-                // TODO: calculate good insertion points, choose the closest one to cursor
-                targetColumn = 0;
-                insertAtColumn(targetColumn, targetLineEl, tempSpan);
+                const dropPositions = findReporterDropPositions(targetLineEl.innerText);
+                const distance = position => Math.min(Math.abs(position.column - targetColumn), Math.abs(position.column + position.replace - targetColumn));
+                dropPositions.sort((a, b) => distance(a) - distance(b));
+                if (dropPositions[0]) {
+                    targetColumn = dropPositions[0].column;
+                    targetReplace = dropPositions[0].replace;
+                    insertAtColumn(targetColumn, targetLineEl, tempSpan);
+                } else {
+                    targetColumn = -1;
+                }
             }
         }
     }
@@ -242,7 +294,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             } else if (insertType === 'SPAN') {
                 const original = codeSplitted[targetLine - 1];
                 const beforeTarget = original.slice(0, targetColumn);
-                const afterTarget = original.slice(targetColumn);
+                const afterTarget = original.slice(targetColumn + targetReplace);
                 codeSplitted[targetLine - 1] = beforeTarget + content + afterTarget;
             }
             inputArea.value = codeSplitted.join('\n');
