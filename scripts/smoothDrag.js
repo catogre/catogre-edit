@@ -184,8 +184,13 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
         if (targetLine < 1) return;
         if (targetLine > codeArea.children.length + 1) return;
 
+        const autoIndentLine = analyseIndent();
         const targetLineEl = codeArea.children[targetLine - 1];
         if (insertType === 'LINE') {
+            while (tempLine.firstChild) {
+                tempLine.removeChild(tempLine.firstChild);
+            }
+            tempLine.appendChild(document.createTextNode(contentMatchingIndent()));
             if (targetLineEl) {
                 codeArea.insertBefore(tempLine, targetLineEl);
             } else {
@@ -198,6 +203,22 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
                 insertAtColumn(targetColumn, targetLineEl, tempSpan);
             }
         }
+    }
+
+    function contentMatchingIndent() {
+        const autoIndentLine = analyseIndent();
+        let inputSplitted = inputArea.value.split('\n');
+        let indentLevels = autoIndentLine[targetLine - 1];
+        if ((inputSplitted[targetLine - 1] || '').trim().startsWith('}')) {
+            indentLevels++;
+        }
+        const lines = content.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            for (let indent = 0; indent < indentLevels; indent++) {
+                lines[i] = '    ' + lines[i];
+            }
+        }
+        return lines.join('\n');
     }
 
     document.onmouseup = function(){
@@ -217,7 +238,7 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             if (codeSplitted == '') {
                 inputArea.value = content;
             } else if (insertType === 'LINE') {
-                codeSplitted.splice(targetLine-1, 0, content);
+                codeSplitted.splice(targetLine-1, 0, contentMatchingIndent());
             } else if (insertType === 'SPAN') {
                 const original = codeSplitted[targetLine - 1];
                 const beforeTarget = original.slice(0, targetColumn);
@@ -226,10 +247,6 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             }
             inputArea.value = codeSplitted.join('\n');
             let autoIndentLine = analyseIndent();
-
-            for(i = 0; i < autoIndentLine[targetLine - 1]; i++){
-                codeSplitted[targetLine - 1] = '    ' + codeSplitted[targetLine - 1];
-            }
             inputArea.value = codeSplitted.join('\n');
         }
         highlight(inputArea.value);
