@@ -28,8 +28,6 @@ classesList.forEach(c => {
 
 tokens["invalid"] = /\S+/;
 
-console.log(tokens);
-
 function tokenizeStr(str){
     let lexer = moo.compile(tokens);
     let tokensList = [];

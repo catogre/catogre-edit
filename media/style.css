@@ -515,6 +515,25 @@ input:focus{
     margin-top: 0;
 }
 
+#beautifyBtn{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.25s ease transform;
+}
+#beautifyBtn:hover{
+    transform: scale(1.2);
+    opacity: 0.7;
+}
+
+#beautifyBtn .iconify{
+    color: #fff;
+    height: 25px;
+    width: 25px;
+}
+
 /* 
 syntax 
 ------
@@ -582,17 +601,13 @@ misc
     color: #7ccbff;
 }
 
-.string .number {
-    color: #7ccbff;
+.bool{
+    color: #e970df;
 }
-
 .class {
     color: #1bc47d;
 }
 
-.string .class {
-    color: #7ccbff;
-}
 
 
 /* animations */

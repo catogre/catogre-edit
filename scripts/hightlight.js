@@ -38,6 +38,16 @@ const highlight = (str) => {
         classSeperator:  'token',
     }
 
+    let highlightExceptions = {
+        '(': '\\(',
+        ')': '\\)',
+        '.': '\\.',
+        '+': '\\+',
+        '*': '\\*',
+        '/': '\/',
+        '||': '\\|\\|',
+    }
+
     let tokensList = tokenizeStr(inputArea.value);
     if(tokensList == "invalid syntax") return;
 
@@ -47,7 +57,7 @@ const highlight = (str) => {
                 let filter = line.includes(com.value);
                 if(filter){
                     let r;
-                    if(com.value == '(' || com.value == ')') r = new RegExp(`\\${com.value}`, 'g');
+                    if(Object.keys(highlightExceptions).includes(com.value)) r = new RegExp(highlightExceptions[com.value], 'g');
                     else r = new RegExp(com.value, 'g');
                     line = line.replace(r, `<span class=\"${highlightClasses[com.type]}\">$&</span>`);
                 }

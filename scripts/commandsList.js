@@ -705,13 +705,13 @@ let commandsList = [
         autocomplete: 'sqrt(1)',
         description: 'Math function. Square root of a number.',
     },
-    /*{
+    {
         command: 'sin',
         type: 'reporter',
         category: 'operators',
         autocomplete: 'sin(1)',
         description: 'Math function.',
-    },  had to comment it, because the current regex highlighter messes up with the sen**sin**g category */ 
+    },
     {
         command: 'cos',
         type: 'reporter',
@@ -730,14 +730,21 @@ let commandsList = [
         command: 'asin',
         type: 'reporter',
         category: 'operators',
-        autocomplete: 'sin(1)',
+        autocomplete: 'asin(1)',
         description: 'Math function.',
     },
     {
         command: 'acos',
         type: 'reporter',
         category: 'operators',
-        autocomplete: 'cos(1)',
+        autocomplete: 'acos(1)',
+        description: 'Math function.',
+    },
+    {
+        command: 'atan',
+        type: 'reporter',
+        category: 'operators',
+        autocomplete: 'atan(1)',
         description: 'Math function.',
     },
     {
@@ -955,10 +962,12 @@ let specialsList = [
     {
         content: 'true',
         category: 'types',
+        colorCategory: 'bool',
         newgroup: true,
     },
     {
         content: 'false',
         category: 'types',
+        colorCategory: 'bool',
     },
 ]

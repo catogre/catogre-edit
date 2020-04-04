@@ -20,3 +20,23 @@ function analyseIndent(){
 }
 
 let indents = [];
+
+let beautify = document.querySelector('#beautifyBtn');
+
+beautify.onclick = () => {
+    let indentArray = analyseIndent();
+    let indentIndex = 0;
+
+    let inputSplitted = inputArea.value.split('\n');
+
+    inputSplitted.forEach(line => {
+        line = line.trim();
+        line = '    '.repeat(indentArray[indentIndex]) + line;
+
+        inputSplitted[indentIndex] = line;
+        indentIndex++;
+    });
+
+    inputArea.value = inputSplitted.join('\n');
+    highlight(inputArea.value);
+}
