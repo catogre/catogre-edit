@@ -287,10 +287,15 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
 
         if (overCodeArea) {
             let codeSplitted = inputArea.value.split('\n');
+            let areaEmpty = false;
+
             if (codeSplitted == '') {
-                inputArea.value = content;
+                areaEmpty = true;
             } else if (insertType === 'LINE') {
                 codeSplitted.splice(targetLine-1, 0, contentMatchingIndent());
+                if(codeSplitted[targetLine] && codeSplitted[targetLine].trim() == ''){
+                    codeSplitted.splice(targetLine, 1)
+                }
             } else if (insertType === 'SPAN') {
                 const original = codeSplitted[targetLine - 1];
                 const beforeTarget = original.slice(0, targetColumn);
@@ -300,6 +305,10 @@ function setItemPaletteDraggable(item, content, category, insertType, easeFactor
             inputArea.value = codeSplitted.join('\n');
             let autoIndentLine = analyseIndent();
             inputArea.value = codeSplitted.join('\n');
+
+            if(areaEmpty){
+                inputArea.value = content;
+            }
         }
         highlight(inputArea.value);
     }

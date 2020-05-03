@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CatOgre Editor 🚧 Under Construction</title>
+    <title>CatOgre Editor Alpha</title>
+    <link rel="shortcut icon" href="./media/favicon.png">
     <link rel="stylesheet" href="media/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
@@ -80,8 +81,10 @@
             <div class="workspace">
                 <div class="code-lines" id="linesCount"></div>
                 <div class="code-edit">
-                    <div id="code"></div>
-                    <textarea id="input" spellcheck="false"></textarea>
+                    <div id="code">
+                        <div class="line"></div>
+                    </div>
+                    <textarea id="input"spellcheck="false"></textarea><!--whenFlagClicked:-->
                 </div>
                 <div class="code-autocomplete" id="autocompleteList"></div>
                 <div id="beautifyBtn" title="Beautify">
@@ -106,12 +109,13 @@
 <script src="scripts/splash.js"></script>
 
 <script src="scripts/commandsList.js"></script>
-<script src="scripts/smoothDrag.js"></script>
+<script src="scripts/dragAndDrop.js"></script>
 <script src="scripts/smoothScroll.js"></script>
 <script src="scripts/textareaTextPosition.js"></script>
 <script src="scripts/stageResize.js"></script>
 <script src="scripts/paletteResize.js"></script>
 <script src="scripts/contextMenu.js"></script>
+<script src="scripts/projName.js"></script>
 
 <script src="scripts/hightlight.js"></script>
 <script src="scripts/autocomplete.js"></script>
@@ -124,6 +128,8 @@
 
     window.addEventListener("load", () => {
         hideSplash();
+        highlight(inputArea.value);
+        updatePageTitle(projName.value);
 
         inputArea.addEventListener("input", (e) => {
             highlight(inputArea.value);

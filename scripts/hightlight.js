@@ -75,4 +75,4 @@ const highlight = (str) => {
     });
 }
 
-highlight(inputArea.value);
+
